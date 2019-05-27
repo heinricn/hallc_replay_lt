@@ -41,9 +41,9 @@ void shms_replay_production_coin_hElec_pProt (Int_t RunNumber = 0, Int_t MaxEven
   gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
   // Load params for COIN trigger configuration
-  gHcParms->Load("PARAM/TRIG/tcoin.param");
+  gHcParms->Load("PARAM/TRIG/tshms.param");
   // Load fadc debug parameters
-  gHcParms->Load("PARAM/HMS/GEN/h_fadc_debug.param");
+  //gHcParms->Load("PARAM/HMS/GEN/h_fadc_debug.param");
   gHcParms->Load("PARAM/SHMS/GEN/p_fadc_debug.param");
 
   // const char* CurrentFileNamePattern = "low_curr_bcm/bcmcurrent_%d.param";

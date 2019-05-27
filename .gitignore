@@ -10,6 +10,7 @@
 *.pdf
 .nfs*
 *.root
+*.old
 
 # Directories
 RAID
@@ -26,3 +27,7 @@ cache
 # Symbolic links
 hcana
 scratch
+raw1
+raw2
+raw3
+raw4

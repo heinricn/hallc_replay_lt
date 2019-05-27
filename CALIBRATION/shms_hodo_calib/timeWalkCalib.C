@@ -128,7 +128,7 @@ TCanvas *makeCan(UInt_t numColumns, UInt_t numRows, UInt_t winWidth, UInt_t winH
 
 // Define the time-walk fit function
 Double_t twFitFunc(Double_t *a, Double_t *c) {
-  Double_t twFitVal = c[0]+1./(TMath::Power((a[0]/tdcThresh), c[1] ));
+  Double_t twFitVal = c[0]+1./(TMath::Power((a[0]/tdcThresh), c[1] )); // = c0 + 1/ (a/tdcthres)^c1 ???
   return twFitVal;
 } // twFitFunc()
 
@@ -144,7 +144,7 @@ Double_t calcMinOrMax(Double_t *array, UInt_t iplane, TString minOrmax) {
 //=: Level 2
 //=:=:=:=:=:=:
 
-// Perform the timw-walk fits
+// Perform the time-walk fits
 void doTwFits(UInt_t iplane, UInt_t iside, UInt_t ipaddle) {
   // Draw fits on canvas
   twFitCan[iplane][iside]->cd(ipaddle+1);
@@ -157,7 +157,7 @@ void doTwFits(UInt_t iplane, UInt_t iside, UInt_t ipaddle) {
   for (UInt_t ipar = 0; ipar < nTwFitPars; ipar++)
     twFit[iplane][iside][ipaddle]->SetParName(ipar, twFitParNames[ipar]);
   twFit[iplane][iside][ipaddle]->SetParameter(0,c0twParInit);
-  twFit[iplane][iside][ipaddle]->SetParameter(1,c1twParInit);
+  twFit[iplane][iside][ipaddle]->SetParameter(1,c1twParInit); // THis is the important one
   // Perform the fits and scream if it failed
   Int_t entry =  h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle]->GetEntries();
   int twFitStatus;
@@ -169,7 +169,7 @@ void doTwFits(UInt_t iplane, UInt_t iside, UInt_t ipaddle) {
     }
   else if (twFitStatus!= 0) 
     cout << "ERROR: Time Walk Fit Failed!!! " << "Status = " << twFitStatus << " For Plane: " <<  planeNames[iplane] << " Side: " << sideNames[iside] << " Paddle: " << ipaddle+1 << endl;		
-  // Create text box to display fir parameters
+  // Create text box to display fit parameters
   twFitParText[iplane][iside][ipaddle] = new TPaveText(0.4, 0.6, 0.895, 0.895, "NBNDC");
   twFitParText[iplane][iside][ipaddle]->AddText(Form("Entries = %.0f", h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle]->GetEntries()));
   // Obtain the fit parameters and associated errors
@@ -364,6 +364,106 @@ void WriteFitParam(int runNUM)
 
 } //end method
 
+// This is to write all the parrameters with there errors, so that they may be checked with other Runs
+void WriteFitParamErr(int runNUM)
+{
+
+  TString outPar_Name = Form("../../PARAM/SHMS/HODO/phodo_TWcalib_Err_%d.param", runNUM);
+  outParam.open(outPar_Name);
+  Double_t c2err[nPlanes][nSides][nBarsMax] = {0.};
+  //Fill 3D Par array
+  for (UInt_t iplane=0; iplane < nPlanes; iplane++)
+    {
+      
+      for (UInt_t iside=0; iside < nSides; iside++) {
+	      
+
+	for(UInt_t ipaddle = 0; ipaddle < nbars[iplane]; ipaddle++) {
+	 
+	  //c1[iplane][iside][ipaddle] = twFit[iplane][iside][ipaddle]->GetParameter("c_{1}");
+	  c2[iplane][iside][ipaddle] = twFit[iplane][iside][ipaddle]->GetParameter("c_{2}");
+	  c2err[iplane][iside][ipaddle] = twFit[iplane][iside][ipaddle]->GetParError(1);
+	  chi2ndf[iplane][iside][ipaddle] =  twFit[iplane][iside][ipaddle]->GetChisquare()/twFit[iplane][iside][ipaddle]->GetNDF();
+
+	} //end paddle loop
+
+      } //end side loop
+    
+    } //end plane loop
+
+  //Wrtie to Param FIle
+   
+  /* Shouldn't have to care about c1
+  outParam << ";Param c1-Pos" << endl;
+  outParam << "; " << setw(12) << "1x " << setw(15) << "1y " << setw(15) << "2x " << setw(15) << "2y " << endl;
+  outParam << "pc1_Pos = ";
+  //Loop over all paddles
+  for(UInt_t ipaddle = 0; ipaddle < nBarsMax; ipaddle++) {
+    //Write c1-Pos values
+    if(ipaddle==0){
+      outParam << c1[0][0][ipaddle] << ", " << setw(15) << c1[1][0][ipaddle] << ", "  << setw(15) << c1[2][0][ipaddle] << ", " << setw(15) << c1[3][0][ipaddle] << fixed << endl; 
+    }
+    else {
+      outParam << setw(17) << c1[0][0][ipaddle] << ", " << setw(15) << c1[1][0][ipaddle] << ", "  << setw(15) << c1[2][0][ipaddle] << ", " << setw(15) << c1[3][0][ipaddle] << fixed << endl;    
+    }
+  } //end loop over paddles
+  
+  outParam << " " << endl;
+  outParam << ";Param c1-Neg" << endl;
+  outParam << "; " << setw(12) << "1x " << setw(15) << "1y " << setw(15) << "2x " << setw(15) << "2y " << endl;
+  outParam << "pc1_Neg = ";                                                                                                                                                                            
+  //Loop over all paddles
+  for(UInt_t ipaddle = 0; ipaddle < nBarsMax; ipaddle++) { 
+    //Write c1-Neg values
+    if(ipaddle==0){
+      outParam << c1[0][1][ipaddle] << ", " << setw(15) << c1[1][1][ipaddle] << ", "  << setw(15) << c1[2][1][ipaddle] << ", " << setw(15) << c1[3][1][ipaddle] << fixed << endl; 
+    }
+    else {
+      outParam << setw(17) << c1[0][1][ipaddle] << ", " << setw(15) << c1[1][1][ipaddle] << ", "  << setw(15) << c1[2][1][ipaddle] << ", " << setw(15) << c1[3][1][ipaddle] << fixed << endl;
+    }
+} //end loop over paddles
+  */
+                                                                                                                                                                           
+  //Loop over all paddles
+  for (UInt_t iplane = 0; iplane < nPlanes; iplane++)
+  {  
+  	for(UInt_t ipaddle = 0; ipaddle < nBarsMax; ipaddle++) { 
+    //Write c2-Pos values
+     
+		outParam << c2[iplane][0][ipaddle] << " " << fixed; 
+                                              
+	    }//end loop paddles
+	outParam << endl;
+	//write errors
+	for(UInt_t ipaddle = 0; ipaddle < nBarsMax; ipaddle++) {
+		outParam << c2err[iplane][0][ipaddle] << " " << fixed;
+	}
+	outParam << endl;
+  } //end loop over planes
+  
+                                                                                                                                                                           
+  //Loop over all paddles
+  for (UInt_t iplane = 0; iplane < nPlanes; iplane++)
+  {  
+  	for(UInt_t ipaddle = 0; ipaddle < nBarsMax; ipaddle++) { 
+    //Write c2-Neg values
+     
+		outParam << c2[iplane][1][ipaddle] << " " << fixed; 
+                                              
+	    }//end loop paddles
+	outParam << endl;
+	//write errors
+	for(UInt_t ipaddle = 0; ipaddle < nBarsMax; ipaddle++) {
+		outParam << c2err[iplane][1][ipaddle] << " " << fixed;
+	}
+	outParam << endl;
+  } //end loop over planes
+  
+  outParam.close();
+
+
+} //end method
+
 //=:=:=:=:=
 //=: Main
 //=:=:=:=:=
@@ -435,7 +535,7 @@ void timeWalkCalib(int run) {
  
   //Write to a param file
   WriteFitParam(run);
-  
+  WriteFitParamErr(run);
  
 
 } // timeWalkCalib()

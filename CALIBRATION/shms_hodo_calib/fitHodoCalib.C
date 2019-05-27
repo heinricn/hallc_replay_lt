@@ -420,8 +420,8 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
 		  Mean =  h1Hist_TWAvg[npl][ipmt]->GetMean();      
 		  
 		  //FIll Uncorrected/Corrected Time Walk Histos
-		  h2Hist_TW_UnCorr[npl][side][ipmt]->Fill(AdcPulseAmp[npl][side][ipmt], TdcTimeUnCorr[npl][side][ipmt] - AdcPulseTime[npl][side][ipmt] );
-		  h2Hist_TW_Corr[npl][side][ipmt]->Fill(AdcPulseAmp[npl][side][ipmt], TdcTimeTWCorr[npl][side][ipmt] - AdcPulseTime[npl][side][ipmt] );
+		  h2Hist_TW_UnCorr[npl][side][ipmt]->Fill(AdcPulseAmp[npl][side][ipmt], TdcTimeUnCorr[npl][side][ipmt] - AdcPulseTime[npl][side][ipmt] ); //ADC Pulse AMP vrs (TDC time - ADC time)
+		  h2Hist_TW_Corr[npl][side][ipmt]->Fill(AdcPulseAmp[npl][side][ipmt], TdcTimeTWCorr[npl][side][ipmt] - AdcPulseTime[npl][side][ipmt] );	  //same but with corrected TDC values
 
 
 		  //Add Time Cuts to get rid of kBig - kBig values, which yielded high evt density at zero
@@ -429,46 +429,48 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
 		    {
 		      
 		      if (side==0)  //require only one side, as a time diff between the two ends of a paddle is take
-			{
+			  {
 			  
-			  
-			  if (npl==0 || npl==2)
-			    {
-			      h2Hist_TWAvg_v_TrkPos[npl][ipmt]->Fill(TrackYPos[npl], 0.5*(TdcTimeTWCorr[npl][1][ipmt] + TdcTimeTWCorr[npl][0][ipmt])); 
-			    }
-			  
-			  else if (npl==1 || npl==3)
-			    {
-			      h2Hist_TWAvg_v_TrkPos[npl][ipmt]->Fill(TrackXPos[npl], 0.5*(TdcTimeTWCorr[npl][1][ipmt] + TdcTimeTWCorr[npl][0][ipmt])); 
-			      
-			    }
-			  if ( (((TdcTimeTWCorr[npl][0][ipmt] + TdcTimeTWCorr[npl][1][ipmt])/2.) > (Mean-nSig*StdDev)) &&  (((TdcTimeTWCorr[npl][0][ipmt] + TdcTimeTWCorr[npl][1][ipmt])/2.) < (Mean+nSig*StdDev)))
-			    {
-			      
-			      if (npl==0 || npl==2)
-				{
+			    // fill histogram for the cable time correction in x-planes, but with no cuts on outliers
+			  	if (npl==0 || npl==2) // if first or third plane
+			  	{
+			  	    h2Hist_TWAvg_v_TrkPos[npl][ipmt]->Fill(TrackYPos[npl], 0.5*(TdcTimeTWCorr[npl][1][ipmt] + TdcTimeTWCorr[npl][0][ipmt])); 
+			  	}
+			  	// same but for y-planes
+			  	else if (npl==1 || npl==3) // second or forth
+			  	{
+			  	    h2Hist_TWAvg_v_TrkPos[npl][ipmt]->Fill(TrackXPos[npl], 0.5*(TdcTimeTWCorr[npl][1][ipmt] + TdcTimeTWCorr[npl][0][ipmt])); 
+			  	    
+			  	}
+			  	
+			  	// if (t+ + t-)/2 > mean - std devitation and (t+ + t-)/2 > mean + std devitation AKA if withen one sdt deviation
+			  	if ( (((TdcTimeTWCorr[npl][0][ipmt] + TdcTimeTWCorr[npl][1][ipmt])/2.) > (Mean-nSig*StdDev)) &&  (((TdcTimeTWCorr[npl][0][ipmt] + TdcTimeTWCorr[npl][1][ipmt])/2.) < (Mean+nSig*StdDev)))
+			  	{
+			  	    
+			  	    if (npl==0 || npl==2)
+					{
 				  
-				  h2Hist_TW_Corr_v_TrkPos[npl][ipmt]->Fill(TrackYPos[npl],  0.5*(TdcTimeTWCorr[npl][1][ipmt] - TdcTimeTWCorr[npl][0][ipmt]));			      	
-				  h2Hist_TWDiff_v_TrkPos[npl][ipmt]->Fill(TrackYPos[npl],  DiffDistTWCorr[npl][ipmt]-TrackYPos[npl]);
-				  h1Hist_TWDiffTrkPos[npl][ipmt]->Fill(DiffDistTWCorr[npl][ipmt] - TrackYPos[npl]);                           
-				  phodo_sigArr[npl][ipmt] = h1Hist_TWDiffTrkPos[npl][ipmt]->GetStdDev();  //Get Paddle resolution stdDev to be used in sig. parameters
-				}
-			      else if (npl==1 || npl==3)
-				{
-				  
-				  h2Hist_TW_Corr_v_TrkPos[npl][ipmt]->Fill(TrackXPos[npl],  0.5*(TdcTimeTWCorr[npl][1][ipmt] - TdcTimeTWCorr[npl][0][ipmt]));
-				  h2Hist_TWDiff_v_TrkPos[npl][ipmt]->Fill(TrackXPos[npl],  DiffDistTWCorr[npl][ipmt]-TrackXPos[npl]);
-				  h1Hist_TWDiffTrkPos[npl][ipmt]->Fill(DiffDistTWCorr[npl][ipmt] - TrackXPos[npl]);                    
-				  phodo_sigArr[npl][ipmt] = h1Hist_TWDiffTrkPos[npl][ipmt]->GetStdDev();  //Get Paddle resolution stdDev to be used in sig. parameters
+					  h2Hist_TW_Corr_v_TrkPos[npl][ipmt]->Fill(TrackYPos[npl],  0.5*(TdcTimeTWCorr[npl][1][ipmt] - TdcTimeTWCorr[npl][0][ipmt]));	//plot with fit		      	
+					  h2Hist_TWDiff_v_TrkPos[npl][ipmt]->Fill(TrackYPos[npl],  DiffDistTWCorr[npl][ipmt]-TrackYPos[npl]);
+					  h1Hist_TWDiffTrkPos[npl][ipmt]->Fill(DiffDistTWCorr[npl][ipmt] - TrackYPos[npl]);                           
+					  phodo_sigArr[npl][ipmt] = h1Hist_TWDiffTrkPos[npl][ipmt]->GetStdDev();  //Get Paddle resolution stdDev to be used in sig. parameters
+					}
+			  	    else if (npl==1 || npl==3)
+					{
+					  
+					  h2Hist_TW_Corr_v_TrkPos[npl][ipmt]->Fill(TrackXPos[npl],  0.5*(TdcTimeTWCorr[npl][1][ipmt] - TdcTimeTWCorr[npl][0][ipmt]));
+					  h2Hist_TWDiff_v_TrkPos[npl][ipmt]->Fill(TrackXPos[npl],  DiffDistTWCorr[npl][ipmt]-TrackXPos[npl]);
+					  h1Hist_TWDiffTrkPos[npl][ipmt]->Fill(DiffDistTWCorr[npl][ipmt] - TrackXPos[npl]);                    
+					  phodo_sigArr[npl][ipmt] = h1Hist_TWDiffTrkPos[npl][ipmt]->GetStdDev();  //Get Paddle resolution stdDev to be used in sig. parameters
 
 				  
-				}
+					}
 			      
-			      h1Hist_TWAvg_CUT[npl][ipmt]->Fill((TdcTimeTWCorr[npl][0][ipmt] + TdcTimeTWCorr[npl][1][ipmt])/2.);
+			  	    h1Hist_TWAvg_CUT[npl][ipmt]->Fill((TdcTimeTWCorr[npl][0][ipmt] + TdcTimeTWCorr[npl][1][ipmt])/2.);
 			      
 			    } //end 3SIGMA CUT of TW Corr Time
 			  
-			}//end require ONLY single side
+			  }//end require ONLY single side
 		      
 		    } //end time cuts
 		  
@@ -553,7 +555,8 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
 		  //Fit TW Corr Time vs. Trk Pos
 		  if (npl==0)
 		    {
-		      fit_status = h2Hist_TW_Corr_v_TrkPos[npl][ipmt]->Fit("fit1x", "QR");  		    }
+		      fit_status = h2Hist_TW_Corr_v_TrkPos[npl][ipmt]->Fit("fit1x", "QR");  		    
+			}
 		  else if (npl==1)
 		    {   
 		      fit_status =  h2Hist_TW_Corr_v_TrkPos[npl][ipmt]->Fit("fit1y", "QR");     

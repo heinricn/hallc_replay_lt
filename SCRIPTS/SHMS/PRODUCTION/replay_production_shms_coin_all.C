@@ -23,7 +23,7 @@ void replay_production_shms_coin_all (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   pathList.push_back("./raw/../raw.copiedtotape");
   pathList.push_back("./cache");
 
-  const char* ROOTFileNamePattern = "ROOTfiles/shms_coin_replay_production_all_%d_%d.root";
+  const char* ROOTFileNamePattern = "ROOTfiles/shms_Hodo_Calib_Pt1_%d_%d.root";
   
   // Load global parameters
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
@@ -50,9 +50,6 @@ void replay_production_shms_coin_all (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   SHMS->AddEvtType(6);
   SHMS->AddEvtType(7);
   gHaApps->Add(SHMS);
-  // Add Noble Gas Cherenkov to SHMS apparatus
-  THcCherenkov* ngcer = new THcCherenkov("ngcer", "Noble Gas Cherenkov");
-  SHMS->AddDetector(ngcer);
   // Add drift chambers to SHMS apparatus
   THcDC* dc = new THcDC("dc", "Drift Chambers");
   SHMS->AddDetector(dc);
@@ -62,9 +59,6 @@ void replay_production_shms_coin_all (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Add Heavy Gas Cherenkov to SHMS apparatus
   THcCherenkov* hgcer = new THcCherenkov("hgcer", "Heavy Gas Cherenkov");
   SHMS->AddDetector(hgcer);
-  // Add Aerogel Cherenkov to SHMS apparatus
-  THcAerogel* aero = new THcAerogel("aero", "Aerogel");
-  SHMS->AddDetector(aero);
   // Add calorimeter to SHMS apparatus
   THcShower* cal = new THcShower("cal", "Calorimeter");
   SHMS->AddDetector(cal);
@@ -80,6 +74,7 @@ void replay_production_shms_coin_all (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Add rastered beam apparatus
   THaApparatus* beam = new THcRasteredBeam("P.rb", "Rastered Beamline");
   gHaApps->Add(beam);
+
   // Add physics modules
   // Calculate reaction point
   THcReactionPoint* prp = new THcReactionPoint("P.react", "SHMS reaction point", "P", "P.rb");
