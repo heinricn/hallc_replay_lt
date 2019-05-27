@@ -239,8 +239,8 @@ void drawParams(UInt_t iplane) {
 	// Set y-axis range min
 	if (minPar[iplane][iside][ipar] < 0.0 || minPar[iplane][iside+1][ipar] < 0.0) {
 	  if (minPar[iplane][iside][ipar] < minPar[iplane][iside+1][ipar]) 
-	    twFitParMultiGraph[iplane][ipar]->SetMinimum(minPar[iplane][iside][ipar] + minScale*minPar[iplane][iside][ipar]);
-	  else twFitParMultiGraph[iplane][ipar]->SetMinimum(minPar[iplane][iside+1][ipar] + minScale*minPar[iplane][iside+1][ipar]);
+	    twFitParMultiGraph[iplane][ipar]->SetMinimum(minPar[iplane][iside][ipar] - minScale*minPar[iplane][iside][ipar]);    //changed from plus to minus, possibly typo?
+	  else twFitParMultiGraph[iplane][ipar]->SetMinimum(minPar[iplane][iside+1][ipar] - minScale*minPar[iplane][iside+1][ipar]);
 	}
 	if (minPar[iplane][iside][ipar] > 0.0 || minPar[iplane][iside+1][ipar] > 0.0) {
 	  if (minPar[iplane][iside][ipar] < minPar[iplane][iside+1][ipar]) 
@@ -250,8 +250,8 @@ void drawParams(UInt_t iplane) {
 	// Set y-axis range max
 	if (maxPar[iplane][iside][ipar] < 0.0 || maxPar[iplane][iside+1][ipar] < 0.0) {
 	  if (maxPar[iplane][iside][ipar] < maxPar[iplane][iside+1][ipar])
-	    twFitParMultiGraph[iplane][ipar]->SetMaximum(maxPar[iplane][iside+1][ipar] - maxScale*maxPar[iplane][iside+1][ipar]);
-	  else twFitParMultiGraph[iplane][ipar]->SetMaximum(maxPar[iplane][iside][ipar] - maxScale*maxPar[iplane][iside][ipar]);
+	    twFitParMultiGraph[iplane][ipar]->SetMaximum(maxPar[iplane][iside+1][ipar] + maxScale*maxPar[iplane][iside+1][ipar]); //changed from minus to plus
+	  else twFitParMultiGraph[iplane][ipar]->SetMaximum(maxPar[iplane][iside][ipar] + maxScale*maxPar[iplane][iside][ipar]);
 	}
 	if (maxPar[iplane][iside][ipar] > 0.0 || maxPar[iplane][iside+1][ipar] > 0.0) {
 	  if (maxPar[iplane][iside][ipar] < maxPar[iplane][iside+1][ipar])
@@ -368,7 +368,7 @@ void WriteFitParam(int runNUM)
 void WriteFitParamErr(int runNUM)
 {
 
-  TString outPar_Name = Form("../../PARAM/SHMS/HODO/phodo_TWcalib_Err_%d.param", runNUM);
+  TString outPar_Name = Form("../../PARAM/SHMS/HODO/Calibration/phodo_TWcalib_Err_%d.param", runNUM);
   outParam.open(outPar_Name);
   Double_t c2err[nPlanes][nSides][nBarsMax] = {0.};
   //Fill 3D Par array
