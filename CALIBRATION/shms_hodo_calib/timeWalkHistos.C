@@ -216,7 +216,7 @@ void timeWalkHistos(TString inputname, Int_t runNum, string SPEC_flg) {  //SPEC_
   replayFile = new TFile(inputname, "READ");
   // replayFile = new TFile(Form("ROOTfiles/shms_coin_replay_production_%d_-1.root", runNum), "READ");
    
-  outFile    = new TFile("timeWalkHistos.root", "RECREATE");
+  outFile    = new TFile(Form("timeWalkHistos%d.root", runNum), "RECREATE"); //changed so there con not be any overlap
   // Obtain the tree
   rawDataTree = dynamic_cast <TTree*> (replayFile->Get("T"));
 
