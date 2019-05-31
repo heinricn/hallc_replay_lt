@@ -118,6 +118,18 @@ void normalizeData ( Double_t *Param[nPlanes][nBarsMax][nSides], Double_t *Param
 	return;
 }
 
+//removes points that the fitting proccess failed
+void RemoveBad ( TGraphErrors *g1, Double_t *Param, Double_t *ParamErr, UInt_t numRuns)
+{
+	for (UInt_t irun = 0; irun < numRuns; irun++)
+	{
+		if ( Param[irun] == 1 &&  ParamErr[irun] == 0)
+		{
+			g1->RemovePoint(irun);
+		}
+	}
+
+}
 
 void HodoParamCompair ( TString runNums_name, UInt_t numRuns ) //input path to run # file, and the number of runs to look at
 {
@@ -227,9 +239,17 @@ void HodoParamCompair ( TString runNums_name, UInt_t numRuns ) //input path to r
 		for (UInt_t iplane = 0; iplane < nPlanes; iplane++)
 		{
 			CompCan[iside][iplane] = new TCanvas(Form("c_s%i_p%i", iside, iplane+1), Form("TW_c2_Comp_"+sideNames[iside]+"_side_plane_%i", iplane+1), 1600, 1600); // name, title, width, height
-			CompCan[iside][iplane]->Divide(5,5);
 			
-			for (UInt_t ibar = 0; ibar < nBarsMax; ibar++)
+			//save space on the non-quartz planes
+			if ( iplane == 3)
+			{
+				CompCan[iside][iplane]->Divide(5,5);
+			}else {
+				CompCan[iside][iplane]->Divide(4,4);
+			}
+			
+			//for planes only run as much as is neccessary (13 in first two, 14 in 3rd one and 21 times in quartz
+			for (UInt_t ibar = 0;((ibar < 13) || (ibar < 14 && iplane == 2)) || (ibar < nBarsMax && iplane == 3) ; ibar++)
 			{
 				// make canvas
 				CompCan[iside][iplane]->cd(ibar+1);
@@ -237,6 +257,9 @@ void HodoParamCompair ( TString runNums_name, UInt_t numRuns ) //input path to r
 				
 				// fill then draw graph
 				CompGra[iside][iplane][ibar] = new TGraphErrors (numRuns, runs, Param[iplane][ibar][iside], nullptr, ParamErr[iplane][ibar][iside]);
+				RemoveBad(CompGra[iside][iplane][ibar], Param[iplane][ibar][iside], ParamErr[iplane][ibar][iside], numRuns);
+				
+				//setting a bunch of stuff
 				CompGra[iside][iplane][ibar]->SetTitle(Form("TW_c2_Comp_"+sideNames[iside]+"_side_plane_%i_Bar%i", iplane+1, ibar+1));
 				CompGra[iside][iplane][ibar]->SetMarkerStyle(1);
 				CompGra[iside][iplane][ibar]->SetMarkerColor(kBlue);
@@ -245,7 +268,7 @@ void HodoParamCompair ( TString runNums_name, UInt_t numRuns ) //input path to r
 				CompGra[iside][iplane][ibar]->GetYaxis()->SetTitle("TW Fit Parameter Value (normailized)");
 				//CompGra[iside][iplane]->GetHistogram()->SetMaximum(2.); // use if normaized, else it will do automaticly          
    				//CompGra[iside][iplane]->GetHistogram()->SetMinimum(-0.5);
-				CompGra[iside][iplane][ibar]->SetMarkerStyle(20);
+				CompGra[iside][iplane][ibar]->SetMarkerStyle(35);
    				CompGra[iside][iplane][ibar]->Draw("AP");
 				
 				//write to file
