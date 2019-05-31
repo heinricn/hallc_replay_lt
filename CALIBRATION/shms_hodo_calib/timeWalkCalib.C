@@ -392,38 +392,7 @@ void WriteFitParamErr(int runNUM)
     } //end plane loop
 
   //Wrtie to Param FIle
-   
-  /* Shouldn't have to care about c1
-  outParam << ";Param c1-Pos" << endl;
-  outParam << "; " << setw(12) << "1x " << setw(15) << "1y " << setw(15) << "2x " << setw(15) << "2y " << endl;
-  outParam << "pc1_Pos = ";
-  //Loop over all paddles
-  for(UInt_t ipaddle = 0; ipaddle < nBarsMax; ipaddle++) {
-    //Write c1-Pos values
-    if(ipaddle==0){
-      outParam << c1[0][0][ipaddle] << ", " << setw(15) << c1[1][0][ipaddle] << ", "  << setw(15) << c1[2][0][ipaddle] << ", " << setw(15) << c1[3][0][ipaddle] << fixed << endl; 
-    }
-    else {
-      outParam << setw(17) << c1[0][0][ipaddle] << ", " << setw(15) << c1[1][0][ipaddle] << ", "  << setw(15) << c1[2][0][ipaddle] << ", " << setw(15) << c1[3][0][ipaddle] << fixed << endl;    
-    }
-  } //end loop over paddles
-  
-  outParam << " " << endl;
-  outParam << ";Param c1-Neg" << endl;
-  outParam << "; " << setw(12) << "1x " << setw(15) << "1y " << setw(15) << "2x " << setw(15) << "2y " << endl;
-  outParam << "pc1_Neg = ";                                                                                                                                                                            
-  //Loop over all paddles
-  for(UInt_t ipaddle = 0; ipaddle < nBarsMax; ipaddle++) { 
-    //Write c1-Neg values
-    if(ipaddle==0){
-      outParam << c1[0][1][ipaddle] << ", " << setw(15) << c1[1][1][ipaddle] << ", "  << setw(15) << c1[2][1][ipaddle] << ", " << setw(15) << c1[3][1][ipaddle] << fixed << endl; 
-    }
-    else {
-      outParam << setw(17) << c1[0][1][ipaddle] << ", " << setw(15) << c1[1][1][ipaddle] << ", "  << setw(15) << c1[2][1][ipaddle] << ", " << setw(15) << c1[3][1][ipaddle] << fixed << endl;
-    }
-} //end loop over paddles
-  */
-                                                                                                                                                                           
+                                                                                                                                                                            
   //Loop over all paddles
   for (UInt_t iplane = 0; iplane < nPlanes; iplane++)
   {  
@@ -484,7 +453,7 @@ void timeWalkCalib(int run) {
   gStyle->SetOptStat(0);
 
   // Read the ROOT file containing the time-walk histos
-  histoFile = new TFile("timeWalkHistos.root", "READ");
+  histoFile = new TFile(Form("timeWalkHistos%d.root", run), "READ");
   // Obtain the top level directory
   dataDir = dynamic_cast <TDirectory*> (histoFile->FindObjectAny("hodoUncalib"));
   // Create the parameter canvases
