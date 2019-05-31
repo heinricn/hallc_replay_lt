@@ -71,8 +71,13 @@ cminch=2.54
 #include "PARAM/SHMS/DC/pdc_calib.param"
 #include "PARAM/SHMS/DC/pdc_tzero_per_wire.param"
 #include "PARAM/SHMS/HODO/phodo_calib.param"
+<<<<<<< HEAD
 #include "PARAM/SHMS/HODO/phodo_TWcalib.param"
 #include "PARAM/SHMS/HODO/phodo_Vpcalib.param"
+=======
+#include "PARAM/SHMS/HODO/Calibration/phodo_TWcalib_7864.param"
+#include "PARAM/SHMS/HODO/Calibration/phodo_Vpcalib_7864.param"
+>>>>>>> 2fbf8648d554ef885ce5d56c8f41302a0f0d5f5b
 #include "PARAM/SHMS/HGCER/phgcer_calib.param"
 #include "PARAM/SHMS/AERO/paero_calib.param"
 #include "PARAM/SHMS/CAL/pcal_calib.param"
