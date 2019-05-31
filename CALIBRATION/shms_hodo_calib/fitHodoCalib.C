@@ -63,7 +63,7 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
 
   if (cosmic_flag) {
     vp= -vp;
-    cout << " Spedd of light set to negative number for cosmics" << endl;
+    cout << " Speed of light set to negative number for cosmics" << endl;
   }
 
   /******Define Leafs to be read from TTree******/
