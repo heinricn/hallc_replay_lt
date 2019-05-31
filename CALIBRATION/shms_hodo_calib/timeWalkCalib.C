@@ -165,10 +165,13 @@ void doTwFits(UInt_t iplane, UInt_t iside, UInt_t ipaddle) {
     {  
       fitResult = h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle]->Fit("twFit", "SREQ");	
       // fitResult->Print("V");
-      twFitStatus = int(fitResult);
+      twFitStatus = int(fitResult[iplane][iside][ipaddle]);
+      if (twFitStatus!= 0) 
+        cout << "ERROR: Time Walk Fit Failed!!! " << "Status = " << twFitStatus << " For Plane: " <<  planeNames[iplane] << " Side: " << sideNames[iside] << " Paddle: " << ipaddle+1 << endl;	
+    }else{
+    	cout << "Warning no data in Plane: " <<  planeNames[iplane] << " Side: " << sideNames[iside] << " Paddle: " << ipaddle+1 << endl;
     }
-  else if (twFitStatus!= 0) 
-    cout << "ERROR: Time Walk Fit Failed!!! " << "Status = " << twFitStatus << " For Plane: " <<  planeNames[iplane] << " Side: " << sideNames[iside] << " Paddle: " << ipaddle+1 << endl;		
+    	
   // Create text box to display fit parameters
   twFitParText[iplane][iside][ipaddle] = new TPaveText(0.4, 0.6, 0.895, 0.895, "NBNDC");
   twFitParText[iplane][iside][ipaddle]->AddText(Form("Entries = %.0f", h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle]->GetEntries()));
@@ -290,7 +293,8 @@ void WriteFitParam(int runNUM)
 	  c1[iplane][iside][ipaddle] = twFit[iplane][iside][ipaddle]->GetParameter("c_{1}");
 	  c2[iplane][iside][ipaddle] = twFit[iplane][iside][ipaddle]->GetParameter("c_{2}");
 	  chi2ndf[iplane][iside][ipaddle] =  twFit[iplane][iside][ipaddle]->GetChisquare()/twFit[iplane][iside][ipaddle]->GetNDF();
-
+	  
+	  
 	} //end paddle loop
 
       } //end side loop
@@ -384,7 +388,7 @@ void WriteFitParamErr(int runNUM)
 	  c2[iplane][iside][ipaddle] = twFit[iplane][iside][ipaddle]->GetParameter("c_{2}");
 	  c2err[iplane][iside][ipaddle] = twFit[iplane][iside][ipaddle]->GetParError(1);
 	  chi2ndf[iplane][iside][ipaddle] =  twFit[iplane][iside][ipaddle]->GetChisquare()/twFit[iplane][iside][ipaddle]->GetNDF();
-
+      
 	} //end paddle loop
 
       } //end side loop
