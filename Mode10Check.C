@@ -242,7 +242,7 @@ void Mode10Check (TString rootFileName, int runNum)
 	gPad->cd(6);
 	hgcer_PMTvSampPulseTimeRaw->Draw();
 	gPad->Modified(); gPad->Update();
-	MultiCanRaw->Print(Form("Mode10_hgcerRaw_%d", runNum), "png");
+	MultiCanRaw->Print(Form("Mode10_hgcerRaw_%d.png", runNum));
 	
 	// second set of 2d plots
 	TCanvas *MultiCan = new TCanvas(Form("Mode10_hgcer_%d", runNum),Form("Mode10_hgcer_%d", runNum), 1200, 1200);
@@ -260,7 +260,7 @@ void Mode10Check (TString rootFileName, int runNum)
 	gPad->cd(6);
 	hgcer_PMTvSampPulseTime->Draw();
     gPad->Modified(); gPad->Update();
-	MultiCan->Print(Form("Mode10_hgcer_%d", runNum), "png");
+	MultiCan->Print(Form("Mode10_hgcer_%d.png", runNum));
 
 	//fill the other histograms
 	TCanvas *HistCan[HGC_PMT]; 
@@ -287,7 +287,7 @@ void Mode10Check (TString rootFileName, int runNum)
 		hgcer_PulseTime[i]->Draw();
 		hgcer_SampPulseTime[i]->Draw("SAME");		
 		gPad->Modified(); gPad->Update();
-		HistCan[i]->Print(Form("Mode10_hgcerHist%d_%d", i, runNum), "png");
+		HistCan[i]->Print(Form("Mode10_hgcerHist%d_%d.png", i, runNum));
 	}
 	
 	return;
