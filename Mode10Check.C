@@ -9,24 +9,24 @@ static const int HGCER_MAX = 16;
 static const int HGC_PMT = 4;
 
 // Standard
-Double_t hgcer_adcCounterNdata;
-Double_t hgcer_adcCounter[HGCER_MAX];
-Double_t hgcer_adcPulseAmpRaw[HGCER_MAX];
-Double_t hgcer_adcPulseIntRaw[HGCER_MAX];
-Double_t hgcer_adcPulseTimeRaw[HGCER_MAX];
-Double_t hgcer_adcPulseAmp[HGCER_MAX];
-Double_t hgcer_adcPulseInt[HGCER_MAX];
-Double_t hgcer_adcPulseTime[HGCER_MAX];
+double hgcer_adcCounterNdata;
+double hgcer_adcCounter[HGCER_MAX];
+double hgcer_adcPulseAmpRaw[HGCER_MAX];
+double hgcer_adcPulseIntRaw[HGCER_MAX];
+double hgcer_adcPulseTimeRaw[HGCER_MAX];
+double hgcer_adcPulseAmp[HGCER_MAX];
+double hgcer_adcPulseInt[HGCER_MAX];
+double hgcer_adcPulseTime[HGCER_MAX];
 
 // Mode 10
-Double_t hgcer_adcSampCounterNdata;
-Double_t hgcer_adcSampCounter[HGCER_MAX];
-Double_t hgcer_adcSampPulseAmpRaw[HGCER_MAX];
-Double_t hgcer_adcSampPulseIntRaw[HGCER_MAX];
-Double_t hgcer_adcSampPulseTimeRaw[HGCER_MAX];
-Double_t hgcer_adcSampPulseAmp[HGCER_MAX];
-Double_t hgcer_adcSampPulseInt[HGCER_MAX];
-Double_t hgcer_adcSampPulseTime[HGCER_MAX];
+double hgcer_adcSampCounterNdata;
+double hgcer_adcSampCounter[HGCER_MAX];
+double hgcer_adcSampPulseAmpRaw[HGCER_MAX];
+double hgcer_adcSampPulseIntRaw[HGCER_MAX];
+double hgcer_adcSampPulseTimeRaw[HGCER_MAX];
+double hgcer_adcSampPulseAmp[HGCER_MAX];
+double hgcer_adcSampPulseInt[HGCER_MAX];
+double hgcer_adcSampPulseTime[HGCER_MAX];
 
 
 // multi Pmt Histos
@@ -63,24 +63,24 @@ TH1D* hgcer_SampPulseTime[HGC_PMT];
 void setBranchAddresses(TTree* DataTree)
 {
 	// regular set
-	DataTree->setBranchAddress("Ndata.T.hgcer.adcCounter", hgcer_adcCounterNdata);
-	DataTree->setBranchAddress("T.hgcer.adcCounter", hgcer_adcCounter);
-	DataTree->setBranchAddress("T.hgcer.adcPulseAmpRaw", hgcer_adcPulseAmpRaw);
-	DataTree->setBranchAddress("T.hgcer.adcPulseIntRaw", hgcer_adcPulseIntRaw);
-	DataTree->setBranchAddress("T.hgcer.adcPulseTimeRaw", hgcer_adcPulseTimeRaw);
-	DataTree->setBranchAddress("T.hgcer.adcPulseAmp", hgcer_adcPulseAmp);
-	DataTree->setBranchAddress("T.hgcer.adcPulseInt", hgcer_adcPulseInt);
-	DataTree->setBranchAddress("T.hgcer.adcPulseTime", hgcer_adcPulseTime);
+	DataTree->SetBranchAddress("Ndata.T.hgcer.adcCounter", hgcer_adcCounterNdata);
+	DataTree->SetBranchAddress("T.hgcer.adcCounter", hgcer_adcCounter);
+	DataTree->SetBranchAddress("T.hgcer.adcPulseAmpRaw", hgcer_adcPulseAmpRaw);
+	DataTree->SetBranchAddress("T.hgcer.adcPulseIntRaw", hgcer_adcPulseIntRaw);
+	DataTree->SetBranchAddress("T.hgcer.adcPulseTimeRaw", hgcer_adcPulseTimeRaw);
+	DataTree->SetBranchAddress("T.hgcer.adcPulseAmp", hgcer_adcPulseAmp);
+	DataTree->SetBranchAddress("T.hgcer.adcPulseInt", hgcer_adcPulseInt);
+	DataTree->SetBranchAddress("T.hgcer.adcPulseTime", hgcer_adcPulseTime);
 	
 	// Mode 10 set
-	DataTree->setBranchAddress("Ndata.T.hgcer.adcSampCounter", hgcer_adcSampCounterNdata);
-	DataTree->setBranchAddress("T.hgcer.adcSampCounter", hgcer_adcSampCounter);
-	DataTree->setBranchAddress("T.hgcer.adcSampPulseAmpRaw", hgcer_adcSampPulseAmpRaw);
-	DataTree->setBranchAddress("T.hgcer.adcSampPulseIntRaw", hgcer_adcSampPulseIntRaw);
-	DataTree->setBranchAddress("T.hgcer.adcSampPulseTimeRaw", hgcer_adcSampPulseTimeRaw);
-	DataTree->setBranchAddress("T.hgcer.adcSampPulseAmp", hgcer_adcSampPulseAmp);
-	DataTree->setBranchAddress("T.hgcer.adcSampPulseInt", hgcer_adcSampPulseInt);
-	DataTree->setBranchAddress("T.hgcer.adcSampPulseTime", hgcer_adcSampPulseTime);
+	DataTree->SetBranchAddress("Ndata.T.hgcer.adcSampCounter", hgcer_adcSampCounterNdata);
+	DataTree->SetBranchAddress("T.hgcer.adcSampCounter", hgcer_adcSampCounter);
+	DataTree->SetBranchAddress("T.hgcer.adcSampPulseAmpRaw", hgcer_adcSampPulseAmpRaw);
+	DataTree->SetBranchAddress("T.hgcer.adcSampPulseIntRaw", hgcer_adcSampPulseIntRaw);
+	DataTree->SetBranchAddress("T.hgcer.adcSampPulseTimeRaw", hgcer_adcSampPulseTimeRaw);
+	DataTree->SetBranchAddress("T.hgcer.adcSampPulseAmp", hgcer_adcSampPulseAmp);
+	DataTree->SetBranchAddress("T.hgcer.adcSampPulseInt", hgcer_adcSampPulseInt);
+	DataTree->SetBranchAddress("T.hgcer.adcSampPulseTime", hgcer_adcSampPulseTime);
 	
 	return;
 }
@@ -122,7 +122,7 @@ void makeHistos()
 	return;
 }
 
-fillHistos(DataTree)
+void fillHistos(DataTree)
 {
 	Int_t MaxEvents = DataTree->GetEntries();
 	cout << "Begining to fill histograms, " << MaxEvents << " events will be processed!\n";
