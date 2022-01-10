@@ -5,6 +5,29 @@
 	to do with the inclusion of mode 10 data.
 */
 
+#include <time.h>
+#include <TSystem.h>
+#include <TString.h>
+#include "TFile.h"
+#include "TTree.h"
+#include <TNtuple.h>
+#include "TCanvas.h"
+#include <iostream>
+#include <fstream>
+#include "TMath.h"
+#include "TH1F.h"
+#include <TH2.h>
+#include <TStyle.h>
+#include <TGraph.h>
+#include <TROOT.h>
+#include <TMath.h>
+#include <TLegend.h>
+#include <TPaveLabel.h>
+#include <TProfile.h>
+#include <TPolyLine.h>
+#include <TObjArray.h>
+#include <TF1.h>
+
 static const int HGCER_MAX = 16;
 static const int HGC_PMT = 4;
 
@@ -128,7 +151,7 @@ void fillHistos(TTree *DataTree)
 	cout << "Begining to fill histograms, " << MaxEvents << " events will be processed!\n";
     for(Int_t iEntry = 0; iEntry < MaxEvents; iEntry++)
     {
-        DataTree->GetEntry(iEntry)
+        DataTree->GetEntry(iEntry);
 		
 		//regular
 		for(int i = 0; i < hgcer_adcCounterNdata; i++)
