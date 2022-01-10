@@ -66,8 +66,8 @@ static const Double_t refAdcPulseTimeCutLow  = 320.0;  // Units of ns
 static const Double_t refAdcPulseTimeCutHigh = 360.0;  // Units of ns
 static const Double_t adcTdcTimeDiffCutLow   = -100.0; // Units of ns
 static const Double_t adcTdcTimeDiffCutHigh  = 100.0;  // Units of ns
-static const Double_t calEtotNormCutVal      = 0.6;  // Units of GeV
-static const Double_t cerNpeSumCutVal        = 1.5;    // Units of NPE
+static const Double_t calEtotNormCutVal      = 0.8;  // Units of GeV
+static const Double_t cerNpeSumCutVal        = 0;    // Units of NPE
 // static const Double_t adcTdcTimeDiffCutLow   = -6000.0;  // Units of ns
 // static const Double_t adcTdcTimeDiffCutHigh  = 1000.0;  // Units of ns
 

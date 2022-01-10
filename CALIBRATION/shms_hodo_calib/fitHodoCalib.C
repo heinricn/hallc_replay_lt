@@ -36,8 +36,8 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
   gROOT->SetBatch(kTRUE);    //do not display plots
 
 
-
-  Int_t evtNUM = 30000; // evtNUm is max number in the fit array
+  // changed this from 30000 N.H. 10 Sept 2021
+  Int_t evtNUM = 3000000; // evtNUm is max number in the fit array
   TFile *data_file = new TFile(filename, "READ"); 
   TTree *T = (TTree*)data_file->Get("T");
 
@@ -85,9 +85,9 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
   TString nhod_nhits = "nhits";
   TString nbeta = "P.hod.betanotrack";
 
-  Double_t etrknrm_low_cut = 0.7;
-  Double_t npngcer_npeSum_low_cut = 0.7;
-  Double_t betanotrack_low_cut = 0.5;
+  Double_t etrknrm_low_cut = 0.9; //0.7
+  Double_t npngcer_npeSum_low_cut = 5; //0.7
+  Double_t betanotrack_low_cut = 0.2;
   Double_t betanotrack_hi_cut = 1.5;
 
   if (cosmic_flag) betanotrack_low_cut = -1.2;
@@ -202,8 +202,8 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
   //1d Fit Function for fitting TW_Corr vs. TrkPos
   TF1 *fit1x = new TF1("fit1x", "[0]*x + [1]", -40., 40.);
   TF1 *fit1y = new TF1("fit1y", "[0]*x + [1]", -40., 40.);                                                                                                     
-  TF1 *fit2x = new TF1("fit2x", "[0]*x + [1]", -20., 40.);                                                                                 
-  TF1 *fit2y = new TF1("fit2y", "[0]*x + [1]", -20., 40.);                                                                             
+  TF1 *fit2x = new TF1("fit2x", "[0]*x + [1]", -40., 40.);                                                                                 
+  TF1 *fit2y = new TF1("fit2y", "[0]*x + [1]", -40., 40.);                                                                             
 
   //Set Param Values/Names
   fit1x->SetParameter(0, 1.), fit1x->SetParName(0, "slope");
@@ -259,16 +259,16 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
 	       if (side==0) //require ONLY one side, since a time diff between two pmts at each end is taken
 		{
 
-		  h1Hist_TWAvg[npl][ipmt] = new TH1F(Form("Avg. Time: Paddle %s%d", pl_names[npl].c_str(), ipmt+1), Form("Paddle %s%d: Time-Walk Corrected Average Time", pl_names[npl].c_str(), ipmt+1), 100, 0, 100);
+		  h1Hist_TWAvg[npl][ipmt] = new TH1F(Form("Avg. Time: Paddle %s%d", pl_names[npl].c_str(), ipmt+1), Form("Paddle %s%d: Time-Walk Corrected Average Time", pl_names[npl].c_str(), ipmt+1), 200, 0, 200);
 		  
-		  h1Hist_TWAvg_CUT[npl][ipmt] = new TH1F(Form("Avg. Time CUT: Paddle %s%d", pl_names[npl].c_str(), ipmt+1), Form("Paddle %s%d: Time-Walk Corrected Average (CUT)",pl_names[npl].c_str(), ipmt+1), 100, 0, 100);
+		  h1Hist_TWAvg_CUT[npl][ipmt] = new TH1F(Form("Avg. Time CUT: Paddle %s%d", pl_names[npl].c_str(), ipmt+1), Form("Paddle %s%d: Time-Walk Corrected Average (CUT)",pl_names[npl].c_str(), ipmt+1), 200, 0, 200);
 	      
 		  h2Hist_TWDiff_v_TrkPos[npl][ipmt] = new TH2F(Form("DistDiff: Paddle %s%d", pl_names[npl].c_str(), ipmt+1), Form("Paddle %s%d: Time-Walk Corr. Hit Dist vs. Hod Track Position", pl_names[npl].c_str(), ipmt+1), 160, -80, 80, 200, -120, 80);
 		  h2Hist_TW_Corr_v_TrkPos[npl][ipmt] = new TH2F(Form("TimeDiff: Paddle %s%d", pl_names[npl].c_str(), ipmt+1), Form("Paddle %s%d: Time-Walk Corr. TimeDiff. vs. Hod Track Position", pl_names[npl].c_str(), ipmt+1), 160, -60, 60, 200, -15, 15);
 		  
 		  h1Hist_TWDiffTrkPos[npl][ipmt] = new TH1F(Form("DistDiff - Track: Paddle %s%d", pl_names[npl].c_str(), ipmt+1), Form("Paddle %s%d: Time-Walk Corr. Hit Dist. - Hod Track Position",pl_names[npl].c_str(), ipmt+1), 200, -120, 80);
 
-		  h2Hist_TWAvg_v_TrkPos[npl][ipmt] = new TH2F(Form("TimeAvg_v_Trk: Paddle %s%d", pl_names[npl].c_str(), ipmt+1), Form("Paddle %s%d: Time-Walk Corr. TimeAvg. vs. Hod Track Position", pl_names[npl].c_str(), ipmt+1), 160, -40, 40, 120, 0, 100);
+		  h2Hist_TWAvg_v_TrkPos[npl][ipmt] = new TH2F(Form("TimeAvg_v_Trk: Paddle %s%d", pl_names[npl].c_str(), ipmt+1), Form("Paddle %s%d: Time-Walk Corr. TimeAvg. vs. Hod Track Position", pl_names[npl].c_str(), ipmt+1), 160, -40, 40, 150, 0, 150);
   
 		  //Set Axis Titles
 		  h1Hist_TWAvg[npl][ipmt]->GetXaxis()->SetTitle("Time-Walk Corr. TDC Average Paddle Time (ns)");
@@ -358,7 +358,7 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
 	      for (Int_t ipmt = 0; ipmt < maxPMT[npl]; ipmt++)
 		{	        
 		  
-		  if(TdcTimeTWCorr[npl][0][ipmt] < 100. && TdcTimeTWCorr[npl][1][ipmt] < 100. && pcal_etrkNorm>0.7)
+		  if(TdcTimeTWCorr[npl][0][ipmt] < 200. && TdcTimeTWCorr[npl][1][ipmt] < 200. && pcal_etrkNorm>0.7)
 		    {
 		      //Fill Average TW Corr TDC Time
 		      h1Hist_TWAvg[npl][ipmt]->Fill((TdcTimeTWCorr[npl][0][ipmt] + TdcTimeTWCorr[npl][1][ipmt])/2.);
@@ -391,7 +391,7 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
       T->GetEntry(i);  
       
       pcal = pcal_etrkNorm>etrknrm_low_cut;
-      pngcer = pngcer_npeSum>npngcer_npeSum_low_cut;
+      pngcer = pngcer_npeSum<npngcer_npeSum_low_cut&&pngcer_npeSum>0; //JM 31-10-21: Added in npeSum > 0 requirement
       pdctrk = pdc_ntrack>0.0;
       betaCut = beta>betanotrack_low_cut&& beta<betanotrack_hi_cut;
       pid_pelec = pcal&&pngcer&&pdctrk;
@@ -425,7 +425,7 @@ void fitHodoCalib(TString filename,Int_t runNUM,Bool_t cosmic_flag=kFALSE)
 
 
 		  //Add Time Cuts to get rid of kBig - kBig values, which yielded high evt density at zero
-		  if(TdcTimeTWCorr[npl][0][ipmt] < 100. && TdcTimeTWCorr[npl][1][ipmt] < 100.)
+		  if(TdcTimeTWCorr[npl][0][ipmt] < 200. && TdcTimeTWCorr[npl][1][ipmt] < 200.)
 		    {
 		      
 		      if (side==0)  //require only one side, as a time diff between the two ends of a paddle is take

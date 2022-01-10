@@ -45,7 +45,7 @@ static const TString detec = "hod";
 static const TString trig  = "T";
 static const TString shms  = "shms";
 
-static const UInt_t  nbars[nPlanes]        = {13, 13, 14, 21};
+static const UInt_t  nbars[nPlanes]        = {13, 13, 14, 18};
 static const TString planeNames[nPlanes]   = {"1x", "1y", "2x", "2y"};
 static const TString sideNames[nSides]     = {"pos", "neg"};
 static const TString signalNames[nSignals] = {"Adc", "Tdc"};
@@ -60,16 +60,18 @@ static const Double_t adcChanTomV     = adcDynamicRange/nAdcChan; // Units of mV
 
 static const Double_t hodoPulseAmpCutLow     = 15.0;   // Units of mV
 static const Double_t hodoPulseAmpCutHigh    = 1000.0; // Units of mV
-static const Double_t refAdcPulseAmpCutLow   = 45.0;   // Units of mV
-static const Double_t refAdcPulseAmpCutHigh  = 65.0;   // Units of mV
-static const Double_t refAdcPulseTimeCutLow  = 330.0;  // Units of ns
+static const Double_t refAdcPulseAmpCutLow   = 40.0;   // Units of mV
+static const Double_t refAdcPulseAmpCutHigh  = 70.0;   // Units of mV
+static const Double_t refAdcPulseTimeCutLow  = 300.0;  // Units of ns
 static const Double_t refAdcPulseTimeCutHigh = 370.0;  // Units of ns
-static const Double_t adcTdcTimeDiffCutLow   = -100.0; // Units of ns
+static const Double_t adcTdcTimeDiffCutLow   = 0.0; // Units of ns
 static const Double_t adcTdcTimeDiffCutHigh  = 100.0;  // Units of ns
-static const Double_t calEtotnormCutVal      = 0.1;    // Units of Normalized energy
-static const Double_t cerNpeSumCutVal        = 1.5;    // Units of NPE in aerogel
+static const Double_t calEtotnormCutVal      = 0.9;    // Units of Normalized energy
+static const Double_t cerNpeSumCutVal        = 10;    // Units of NPE in aerogel
 // static const Double_t adcTdcTimeDiffCutLow   = -6000.0;  // Units of ns
 // static const Double_t adcTdcTimeDiffCutHigh  = 1000.0;  // Units of ns
+
+static const bool TimeWalkRangeSet = false; // this will determine if the TDC ADC Time Diff walk is done per plane or set with the adcTdcTimeDiffCutLow/High variables 
 
 static const Double_t fontSize = 0.04;
 
@@ -130,7 +132,6 @@ Bool_t adcPulseAmpCut, adcTdcTimeDiffCut;
 Bool_t calEtotnormCut, cerNpeSumCut;
 
 void generatePlots(UInt_t iplane, UInt_t iside, UInt_t ipaddle) {
-
   // Create trigger aparatus directory
   trigRawDir = dynamic_cast <TDirectory*> (outFile->Get("trigAppRaw"));
   if (!trigRawDir) {trigRawDir = outFile->mkdir("trigAppRaw"); trigRawDir->cd();}
@@ -194,8 +195,19 @@ void generatePlots(UInt_t iplane, UInt_t iside, UInt_t ipaddle) {
   if (!adcTdcTimeDiffWalkDir[iplane][iside]) {adcTdcTimeDiffWalkDir[iplane][iside] = sideUncalibDir[iplane][iside]->mkdir("adcTdcTimeDiffWalk"); adcTdcTimeDiffWalkDir[iplane][iside]->cd();}
   else (outFile->cd("hodoUncalib/"+planeNames[iplane]+"/"+sideNames[iside]+"/adcTdcTimeDiffWalk"));
   // Book histos
-  if (!h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle]) h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle] = new TH2F(Form("h2_adcTdcTimeDiffWalk_paddle_%d", ipaddle+1), "TDC-ADC Time vs. Pulse Amp Plane "+planeNames[iplane]+" Side "+sideNames[iside]+Form(" Paddle %d", ipaddle+1)+"; Pulse Amplitude (mV) / 1 mV;  TDC-ADC Time (ns) / 100 ps", 1000, 0, 1000, 1500, adcTdcTimeDiffCutLow, adcTdcTimeDiffCutHigh); //was 500, -20, 30
-  
+  if (!h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle] && !TimeWalkRangeSet){ // NH 2021 11 26 changed this so that each plane could have the y-range set seperately
+    if (iplane == 0)
+      h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle] = new TH2F(Form("h2_adcTdcTimeDiffWalk_paddle_%d", ipaddle+1), "TDC-ADC Time vs. Pulse Amp Plane "+planeNames[iplane]+" Side "+sideNames[iside]+Form(" Paddle %d", ipaddle+1)+"; Pulse Amplitude (mV) / 1 mV;  TDC-ADC Time (ns) / 100 ps", 500, 0, 500, 1500, 15, 35);
+    if(iplane == 1)
+      h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle] = new TH2F(Form("h2_adcTdcTimeDiffWalk_paddle_%d", ipaddle+1), "TDC-ADC Time vs. Pulse Amp Plane "+planeNames[iplane]+" Side "+sideNames[iside]+Form(" Paddle %d", ipaddle+1)+"; Pulse Amplitude (mV) / 1 mV;  TDC-ADC Time (ns) / 100 ps", 500, 0, 500, 1500, 20, 40);
+    if(iplane == 2)
+      h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle] = new TH2F(Form("h2_adcTdcTimeDiffWalk_paddle_%d", ipaddle+1), "TDC-ADC Time vs. Pulse Amp Plane "+planeNames[iplane]+" Side "+sideNames[iside]+Form(" Paddle %d", ipaddle+1)+"; Pulse Amplitude (mV) / 1 mV;  TDC-ADC Time (ns) / 100 ps", 500, 0, 500, 1500, 15, 35);
+    if(iplane == 3)
+      h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle] = new TH2F(Form("h2_adcTdcTimeDiffWalk_paddle_%d", ipaddle+1), "TDC-ADC Time vs. Pulse Amp Plane "+planeNames[iplane]+" Side "+sideNames[iside]+Form(" Paddle %d", ipaddle+1)+"; Pulse Amplitude (mV) / 1 mV;  TDC-ADC Time (ns) / 100 ps", 500, 0, 500, 1500, 33, 53);
+  }else{
+    if(!h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle] && TimeWalkRangeSet)
+      h2_adcTdcTimeDiffWalk[iplane][iside][ipaddle] = new TH2F(Form("h2_adcTdcTimeDiffWalk_paddle_%d", ipaddle+1), "TDC-ADC Time vs. Pulse Amp Plane "+planeNames[iplane]+" Side "+sideNames[iside]+Form(" Paddle %d", ipaddle+1)+"; Pulse Amplitude (mV) / 1 mV;  TDC-ADC Time (ns) / 100 ps", 500, 0, 500, 1500, adcTdcTimeDiffCutLow, adcTdcTimeDiffCutHigh);
+  }
 } // generatePlots()
 
 void timeWalkHistos(TString inputname, Int_t runNum, string SPEC_flg) {  //SPEC_flg--> "shms" or "coin"
@@ -233,8 +245,8 @@ void timeWalkHistos(TString inputname, Int_t runNum, string SPEC_flg) {  //SPEC_
   rawDataTree->SetBranchAddress(Form("T.%s.pT1_tdcTimeRaw", SPEC_flg.c_str()), &refT1TdcTimeRaw);
   rawDataTree->SetBranchAddress(Form("T.%s.pT2_tdcTimeRaw", SPEC_flg.c_str()), &refT2TdcTimeRaw);
   rawDataTree->SetBranchAddress(Form("T.%s.pT3_tdcTimeRaw", SPEC_flg.c_str()), &refT3TdcTimeRaw);
-  rawDataTree->SetBranchAddress("P.cal.etotnorm", &calEtotnorm);
-  rawDataTree->SetBranchAddress("P.aero.npeSum", &cerNpeSum);
+  rawDataTree->SetBranchAddress("P.cal.etracknorm", &calEtotnorm);
+  rawDataTree->SetBranchAddress("P.hgcer.npeSum", &cerNpeSum);
 
   rawDataTree->SetBranchAddress("P.hod.1x.nhits", &phod_1xnhits);
   rawDataTree->SetBranchAddress("P.hod.1y.nhits", &phod_1ynhits);
@@ -319,7 +331,7 @@ void timeWalkHistos(TString inputname, Int_t runNum, string SPEC_flg) {  //SPEC_
 
     // Fiducial PID cuts
     calEtotnormCut   = (calEtotnorm < calEtotnormCutVal);
-    cerNpeSumCut = (cerNpeSum < cerNpeSumCutVal);
+    cerNpeSumCut = (cerNpeSum < cerNpeSumCutVal); // JM 31-10-21: Editing cer cuts for good event selection. Added non-zero requirement
     if (calEtotnormCut || cerNpeSumCut) continue;
     if (!good_hits) continue;
     // Fill trigger apparatus histos

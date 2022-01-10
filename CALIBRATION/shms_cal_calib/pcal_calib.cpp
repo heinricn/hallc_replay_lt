@@ -14,7 +14,7 @@ void pcal_calib(string Prefix, int RunNumber, int nstop=-1, int nstart=0) {
   // Initialize the analysis clock
   clock_t t = clock();
  
-  cout << "Calibrating file " << Prefix << "_" << RunNumber << "_" << nstop <<  ".root, events "
+  cout << "Calibrating file is the following: " << Prefix << "_" << RunNumber << "_" << nstop <<  ".root, events "
        << nstart << " -- " << nstop << endl;
 
   THcPShowerCalib theShowerCalib(Prefix, RunNumber, nstart, nstop);
@@ -148,9 +148,9 @@ void pcal_calib(string Prefix, int RunNumber, int nstop=-1, int nstart=0) {
   Canvas2->Print(Outpdf);
   Canvas3->Print(Outpdf + ')');
   // Save histograms in root file.
-
+  //  TFile* froot = new TFile("/volatile/hallc/c-pionlt/jmurphy/ROOTfiles/Calib/HGC/Pion_coin_replay_production_8604_-1.root",
   TFile* froot=new TFile(Form("%s_%d_%d.root",Prefix.c_str(),RunNumber,nstop),
-			 "RECREATE");
+  			 "RECREATE");
   theShowerCalib.hEunc->Write();
   theShowerCalib.hEuncSel->Write();
   theShowerCalib.hESHvsEPR->Write();
