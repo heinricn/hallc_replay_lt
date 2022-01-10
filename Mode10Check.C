@@ -263,7 +263,7 @@ void Mode10Check (TString rootFileName, int runNum)
 	for(int i = 0; i < HGC_PMT; i++)
 	{
 		HistCan[i] = new TCanvas(Form("Mode10_hgcerHist%d_%d", i, runNum),Form("Mode10_hgcerHist%d_%d", i, runNum), 1200, 1200);
-		HistCan->cd(1); gPad->Divide(2,3);
+		HistCan[i]->cd(1); gPad->Divide(2,3);
 		gPad->cd(1);
 		hgcer_PulseAmpRaw[i]->Draw();
 		hgcer_SampPulseAmpRaw[i]->Draw("SAME");
