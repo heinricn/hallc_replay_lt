@@ -163,7 +163,7 @@ void fillHistos(TTree *DataTree)
 			hgcer_PMTvPulseInt->Fill(hgcer_adcCounter[i], hgcer_adcPulseInt[i]);
 			hgcer_PMTvPulseTime->Fill(hgcer_adcCounter[i], hgcer_adcPulseTime[i]);
 		
-		    int j = hgcer_adcCounter;
+		    int j = hgcer_adcCounter[i];
 			hgcer_PulseAmpRaw[j]->Fill(hgcer_adcPulseAmpRaw[i]);
 			hgcer_PulseIntRaw[j]->Fill(hgcer_adcPulseIntRaw[i]);
 			hgcer_PulseTimeRaw[j]->Fill(hgcer_adcPulseTimeRaw[i]);
@@ -182,7 +182,7 @@ void fillHistos(TTree *DataTree)
 			hgcer_PMTvSampPulseInt->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseInt[i]);
 			hgcer_PMTvSampPulseTime->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseTime[i]);
 		
-		    int k = hgcer_adcSampCounter;
+		    int k = hgcer_adcSampCounter[i];
 			hgcer_SampPulseAmpRaw[k]->Fill(hgcer_adcSampPulseAmpRaw[i]);
 			hgcer_SampPulseIntRaw[k]->Fill(hgcer_adcSampPulseIntRaw[i]);
 			hgcer_SampPulseTimeRaw[k]->Fill(hgcer_adcSampPulseTimeRaw[i]);
@@ -237,7 +237,7 @@ void Mode10Check (TString rootFileName, int runNum)
 	hgcer_PMTvSampPulseIntRaw->Draw();
 	gPad->cd(6);
 	hgcer_PMTvSampPulseTimeRaw->Draw();
-	
+	gPad->Modified(); gPad->Update();
 	MultiCanRaw->Print(Form("Mode10_hgcerRaw_%d", runNum), "png");
 	
 	// second set of 2d plots
@@ -255,7 +255,7 @@ void Mode10Check (TString rootFileName, int runNum)
 	hgcer_PMTvSampPulseInt->Draw();
 	gPad->cd(6);
 	hgcer_PMTvSampPulseTime->Draw();
-
+    gPad->Modified(); gPad->Update();
 	MultiCan->Print(Form("Mode10_hgcer_%d", runNum), "png");
 
 	//fill the other histograms
@@ -263,26 +263,26 @@ void Mode10Check (TString rootFileName, int runNum)
 	for(int i = 0; i < HGC_PMT; i++)
 	{
 		HistCan[i] = new TCanvas(Form("Mode10_hgcerHist%d_%d", i, runNum),Form("Mode10_hgcerHist%d_%d", i, runNum), 1200, 1200);
-		HistCan->Divide(2,3);
-		HistCan->cd(1);
+		HistCan->cd(1); gPad->Divide(2,3);
+		gPad->cd(1);
 		hgcer_PulseAmpRaw[i]->Draw();
 		hgcer_SampPulseAmpRaw[i]->Draw("SAME");
-		HistCan->cd(2);
+		gPad->cd(2);
 		hgcer_PulseIntRaw[i]->Draw();
 		hgcer_SampPulseIntRaw[i]->Draw("SAME");
-		HistCan->cd(3);
+		gPad->cd(3);
 		hgcer_PulseTimeRaw[i]->Draw();
 		hgcer_SampPulseTimeRaw[i]->Draw("SAME");
-		HistCan->cd(4);
+		gPad->cd(4);
 		hgcer_PulseAmp[i]->Draw();
 		hgcer_SampPulseAmp[i]->Draw("SAME");
-		HistCan->cd(5);
+		gPad->cd(5);
 		hgcer_PulseInt[i]->Draw();
 		hgcer_SampPulseInt[i]->Draw("SAME");
-		HistCan->cd(6);
+		gPad->cd(6);
 		hgcer_PulseTime[i]->Draw();
 		hgcer_SampPulseTime[i]->Draw("SAME");		
-		
+		gPad->Modified(); gPad->Update();
 		HistCan[i]->Print(Form("Mode10_hgcerHist%d_%d", i, runNum), "png");
 	}
 	
