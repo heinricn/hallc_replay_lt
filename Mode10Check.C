@@ -63,7 +63,7 @@ TH1D* hgcer_SampPulseTime[HGC_PMT];
 void setBranchAddresses(TTree* DataTree)
 {
 	// regular set
-	DataTree->SetBranchAddress("Ndata.T.hgcer.adcCounter", hgcer_adcCounterNdata);
+	DataTree->SetBranchAddress("Ndata.T.hgcer.adcCounter", &hgcer_adcCounterNdata);
 	DataTree->SetBranchAddress("T.hgcer.adcCounter", hgcer_adcCounter);
 	DataTree->SetBranchAddress("T.hgcer.adcPulseAmpRaw", hgcer_adcPulseAmpRaw);
 	DataTree->SetBranchAddress("T.hgcer.adcPulseIntRaw", hgcer_adcPulseIntRaw);
@@ -73,7 +73,7 @@ void setBranchAddresses(TTree* DataTree)
 	DataTree->SetBranchAddress("T.hgcer.adcPulseTime", hgcer_adcPulseTime);
 	
 	// Mode 10 set
-	DataTree->SetBranchAddress("Ndata.T.hgcer.adcSampCounter", hgcer_adcSampCounterNdata);
+	DataTree->SetBranchAddress("Ndata.T.hgcer.adcSampCounter", &hgcer_adcSampCounterNdata);
 	DataTree->SetBranchAddress("T.hgcer.adcSampCounter", hgcer_adcSampCounter);
 	DataTree->SetBranchAddress("T.hgcer.adcSampPulseAmpRaw", hgcer_adcSampPulseAmpRaw);
 	DataTree->SetBranchAddress("T.hgcer.adcSampPulseIntRaw", hgcer_adcSampPulseIntRaw);
@@ -122,7 +122,7 @@ void makeHistos()
 	return;
 }
 
-void fillHistos(DataTree)
+void fillHistos(TTree *DataTree)
 {
 	Int_t MaxEvents = DataTree->GetEntries();
 	cout << "Begining to fill histograms, " << MaxEvents << " events will be processed!\n";
@@ -171,7 +171,7 @@ void fillHistos(DataTree)
 
 
 
-void Mode10Check (TString inFile, int runNum)
+void Mode10Check (TString rootFileName, int runNum)
 {
 	//get root file
     TFile* inFile = new TFile(rootFileName, "READ");
@@ -241,22 +241,22 @@ void Mode10Check (TString inFile, int runNum)
 		HistCan->Divide(2,3);
 		HistCan->cd(1);
 		hgcer_PulseAmpRaw[i]->Draw();
-		hgcer_SampPulseAmpRaw[i]-Draw("SAME");
+		hgcer_SampPulseAmpRaw[i]->Draw("SAME");
 		HistCan->cd(2);
 		hgcer_PulseIntRaw[i]->Draw();
-		hgcer_SampPulseIntRaw[i]-Draw("SAME");
+		hgcer_SampPulseIntRaw[i]->Draw("SAME");
 		HistCan->cd(3);
 		hgcer_PulseTimeRaw[i]->Draw();
-		hgcer_SampPulseTimeRaw[i]-Draw("SAME");
+		hgcer_SampPulseTimeRaw[i]->Draw("SAME");
 		HistCan->cd(4);
 		hgcer_PulseAmp[i]->Draw();
-		hgcer_SampPulseAmp[i]-Draw("SAME");
+		hgcer_SampPulseAmp[i]->Draw("SAME");
 		HistCan->cd(5);
 		hgcer_PulseInt[i]->Draw();
-		hgcer_SampPulseInt[i]-Draw("SAME");
+		hgcer_SampPulseInt[i]->Draw("SAME");
 		HistCan->cd(6);
 		hgcer_PulseTime[i]->Draw();
-		hgcer_SampPulseTime[i]-Draw("SAME");		
+		hgcer_SampPulseTime[i]->Draw("SAME");		
 		
 		HistCan[i]->Print(Form("Mode10_hgcerHist%d_%d", i, runNum), "png");
 	}
