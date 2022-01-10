@@ -112,35 +112,35 @@ void makeHistos()
 {
 	// multi Pmt Histos
 	hgcer_PMTvPulseAmpRaw 		= new TH2D("hgcer_PMTvPulseAmpRaw","hgcer_PMTvPulseAmpRaw", HGC_PMT, 0.5, 4.5, 600, 400, 1000);
-	hgcer_PMTvPulseIntRaw 		= new TH2D("hgcer_PMTvPulseIntRaw","hgcer_PMTvPulseIntRaw", HGC_PMT, 0.5, 4.5, 1000, 0, 10000);
+	hgcer_PMTvPulseIntRaw 		= new TH2D("hgcer_PMTvPulseIntRaw","hgcer_PMTvPulseIntRaw", HGC_PMT, 0.5, 4.5, 1800, 2000, 20000);
 	hgcer_PMTvPulseTimeRaw 		= new TH2D("hgcer_PMTvPulseTimeRaw","hgcer_PMTvPulseTimeRaw", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
 	hgcer_PMTvPulseAmp 			= new TH2D("hgcer_PMTvPulseAmp","hgcer_PMTvPulseAmp", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
 	hgcer_PMTvPulseInt 			= new TH2D("hgcer_PMTvPulseInt","hgcer_PMTvPulseInt", HGC_PMT, 0.5, 4.5, 200, 0, 400);
 	hgcer_PMTvPulseTime 		= new TH2D("hgcer_PMTvPulseTime","hgcer_PMTvPulseTime", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
 
-	hgcer_PMTvSampPulseAmpRaw 	= new TH2D("hgcer_PMTvSampPulseAmpRaw","hgcer_PMTvSampPulseAmpRaw", HGC_PMT, 0.5, 4.5, 600, 400, 1000);
-	hgcer_PMTvSampPulseIntRaw 	= new TH2D("hgcer_PMTvSampPulseIntRaw","hgcer_PMTvSampPulseIntRaw", HGC_PMT, 0.5, 4.5, 1000, 0, 10000);
-	hgcer_PMTvSampPulseTimeRaw 	= new TH2D("hgcer_PMTvSampPulseTimeRaw","hgcer_PMTvSampPulseTimeRaw", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
-	hgcer_PMTvSampPulseAmp 		= new TH2D("hgcer_PMTvSampPulseAmp","hgcer_PMTvSampPulseAmp", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvSampPulseAmpRaw 	= new TH2D("hgcer_PMTvSampPulseAmpRaw","hgcer_PMTvSampPulseAmpRaw", HGC_PMT, 0.5, 4.5, 300, 400, 1000);
+	hgcer_PMTvSampPulseIntRaw 	= new TH2D("hgcer_PMTvSampPulseIntRaw","hgcer_PMTvSampPulseIntRaw", HGC_PMT, 0.5, 4.5, 1800, 2000, 20000);
+	hgcer_PMTvSampPulseTimeRaw 	= new TH2D("hgcer_PMTvSampPulseTimeRaw","hgcer_PMTvSampPulseTimeRaw", HGC_PMT, 0.5, 4.5, 500, 0, 1000);
+	hgcer_PMTvSampPulseAmp 		= new TH2D("hgcer_PMTvSampPulseAmp","hgcer_PMTvSampPulseAmp", HGC_PMT, 0.5, 4.5, 500, 0, 1000);
 	hgcer_PMTvSampPulseInt 		= new TH2D("hgcer_PMTvSampPulseInt","hgcer_PMTvSampPulseInt", HGC_PMT, 0.5, 4.5, 200, 0, 400);
-	hgcer_PMTvSampPulseTime 	= new TH2D("hgcer_PMTvSampPulseTime","hgcer_PMTvSampPulseTime", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvSampPulseTime 	= new TH2D("hgcer_PMTvSampPulseTime","hgcer_PMTvSampPulseTime", HGC_PMT, 0.5, 4.5, 500, 0, 1000);
 
 	//single pmt comparison histos
 	for(int i = 0; i< HGC_PMT; i++)
 	{
 		hgcer_PulseAmpRaw[i] 	= new TH1D(Form("hgcer_PulseAmpRaw_%d", i),Form("hgcer_PulseAmpRaw_%d", i), 400, 400, 1000);
-		hgcer_PulseIntRaw[i] 	= new TH1D(Form("hgcer_PulseIntRaw_%d", i),Form("hgcer_PulseIntRaw_%d", i), 1000, 0, 10000);
-		hgcer_PulseTimeRaw[i] 	= new TH1D(Form("hgcer_PulseTimeRaw_%d", i),Form("hgcer_PulseTimeRaw_%d", i), 1000, 0, 1000);
-		hgcer_PulseAmp[i] 		= new TH1D(Form("hgcer_PulseAmp_%d", i),Form("hgcer_PulseAmp_%d", i), 1000, 0, 1000);
+		hgcer_PulseIntRaw[i] 	= new TH1D(Form("hgcer_PulseIntRaw_%d", i),Form("hgcer_PulseIntRaw_%d", i), 1800, 2000, 20000);
+		hgcer_PulseTimeRaw[i] 	= new TH1D(Form("hgcer_PulseTimeRaw_%d", i),Form("hgcer_PulseTimeRaw_%d", i), 500, 0, 1000);
+		hgcer_PulseAmp[i] 		= new TH1D(Form("hgcer_PulseAmp_%d", i),Form("hgcer_PulseAmp_%d", i), 500, 0, 1000);
 		hgcer_PulseInt[i] 		= new TH1D(Form("hgcer_PulseInt_%d", i),Form("hgcer_PulseInt_%d", i), 200, 0, 400);
-		hgcer_PulseTime[i] 		= new TH1D(Form("hgcer_PulseTime_%d", i),Form("hgcer_PulseTime_%d", i), 1000, 0, 1000);
+		hgcer_PulseTime[i] 		= new TH1D(Form("hgcer_PulseTime_%d", i),Form("hgcer_PulseTime_%d", i), 500, 0, 1000);
 
 		hgcer_SampPulseAmpRaw[i]	= new TH1D(Form("hgcer_SampPulseAmpRaw_%d", i),Form("hgcer_SampPulseAmpRaw_%d", i), 600, 400, 1000);
-		hgcer_SampPulseIntRaw[i] 	= new TH1D(Form("hgcer_SampPulseIntRaw_%d", i),Form("hgcer_SampPulseIntRaw_%d", i), 1000, 0, 10000);
-		hgcer_SampPulseTimeRaw[i] 	= new TH1D(Form("hgcer_SampPulseTimeRaw_%d", i),Form("hgcer_SampPulseTimeRaw_%d", i), 1000, 0, 1000);
-		hgcer_SampPulseAmp[i] 		= new TH1D(Form("hgcer_SampPulseAmp_%d", i),Form("hgcer_SampPulseAmp_%d", i), 1000, 0, 1000);
+		hgcer_SampPulseIntRaw[i] 	= new TH1D(Form("hgcer_SampPulseIntRaw_%d", i),Form("hgcer_SampPulseIntRaw_%d", i), 1800, 2000, 20000);
+		hgcer_SampPulseTimeRaw[i] 	= new TH1D(Form("hgcer_SampPulseTimeRaw_%d", i),Form("hgcer_SampPulseTimeRaw_%d", i), 500, 0, 1000);
+		hgcer_SampPulseAmp[i] 		= new TH1D(Form("hgcer_SampPulseAmp_%d", i),Form("hgcer_SampPulseAmp_%d", i), 500, 0, 1000);
 		hgcer_SampPulseInt[i] 		= new TH1D(Form("hgcer_SampPulseInt_%d", i),Form("hgcer_SampPulseInt_%d", i), 200, 0, 400);
-		hgcer_SampPulseTime[i] 		= new TH1D(Form("hgcer_SampPulseTime_%d", i),Form("hgcer_SampPulseTime_%d", i), 1000, 0, 1000);
+		hgcer_SampPulseTime[i] 		= new TH1D(Form("hgcer_SampPulseTime_%d", i),Form("hgcer_SampPulseTime_%d", i), 500, 0, 1000);
 	}
 	return;
 }
