@@ -164,6 +164,8 @@ void fillHistos(TTree *DataTree)
 			hgcer_PMTvPulseTime->Fill(hgcer_adcCounter[i], hgcer_adcPulseTime[i]);
 		
 		    int j = hgcer_adcCounter[i];
+			if( j < 0 || j > 3) 
+			    cout << "Error! j out of bounds!!!!!!\n";
 			hgcer_PulseAmpRaw[j]->Fill(hgcer_adcPulseAmpRaw[i]);
 			hgcer_PulseIntRaw[j]->Fill(hgcer_adcPulseIntRaw[i]);
 			hgcer_PulseTimeRaw[j]->Fill(hgcer_adcPulseTimeRaw[i]);
@@ -183,6 +185,8 @@ void fillHistos(TTree *DataTree)
 			hgcer_PMTvSampPulseTime->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseTime[i]);
 		
 		    int k = hgcer_adcSampCounter[i];
+		    if( k < 0 || k > 3)
+		        cout << "Error! j out of bounds!!!!!!\n";
 			hgcer_SampPulseAmpRaw[k]->Fill(hgcer_adcSampPulseAmpRaw[i]);
 			hgcer_SampPulseIntRaw[k]->Fill(hgcer_adcSampPulseIntRaw[i]);
 			hgcer_SampPulseTimeRaw[k]->Fill(hgcer_adcSampPulseTimeRaw[i]);
@@ -213,7 +217,7 @@ void Mode10Check (TString rootFileName, int runNum)
     //get tree from root file
     TTree *DataTree = dynamic_cast <TTree*> (inFile->Get("T"));
     
-    DataTree->Print();
+    //DataTree->Print();
     setBranchAddresses(DataTree);
     
     //make histograms
