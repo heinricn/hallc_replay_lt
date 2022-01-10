@@ -111,19 +111,19 @@ void setBranchAddresses(TTree* DataTree)
 void makeHistos()
 {
 	// multi Pmt Histos
-	hgcer_PMTvPulseAmpRaw 		= new TH2D("hgcer_PMTvPulseAmpRaw","hgcer_PMTvPulseAmpRaw", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
-	hgcer_PMTvPulseIntRaw 		= new TH2D("hgcer_PMTvPulseIntRaw","hgcer_PMTvPulseIntRaw", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
-	hgcer_PMTvPulseTimeRaw 		= new TH2D("hgcer_PMTvPulseTimeRaw","hgcer_PMTvPulseTimeRaw", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
-	hgcer_PMTvPulseAmp 			= new TH2D("hgcer_PMTvPulseAmp","hgcer_PMTvPulseAmp", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
-	hgcer_PMTvPulseInt 			= new TH2D("hgcer_PMTvPulseInt","hgcer_PMTvPulseInt", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
-	hgcer_PMTvPulseTime 		= new TH2D("hgcer_PMTvPulseTime","hgcer_PMTvPulseTime", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
+	hgcer_PMTvPulseAmpRaw 		= new TH2D("hgcer_PMTvPulseAmpRaw","hgcer_PMTvPulseAmpRaw", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvPulseIntRaw 		= new TH2D("hgcer_PMTvPulseIntRaw","hgcer_PMTvPulseIntRaw", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvPulseTimeRaw 		= new TH2D("hgcer_PMTvPulseTimeRaw","hgcer_PMTvPulseTimeRaw", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvPulseAmp 			= new TH2D("hgcer_PMTvPulseAmp","hgcer_PMTvPulseAmp", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvPulseInt 			= new TH2D("hgcer_PMTvPulseInt","hgcer_PMTvPulseInt", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvPulseTime 		= new TH2D("hgcer_PMTvPulseTime","hgcer_PMTvPulseTime", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
 
-	hgcer_PMTvSampPulseAmpRaw 	= new TH2D("hgcer_PMTvSampPulseAmpRaw","hgcer_PMTvSampPulseAmpRaw", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
-	hgcer_PMTvSampPulseIntRaw 	= new TH2D("hgcer_PMTvSampPulseIntRaw","hgcer_PMTvSampPulseIntRaw", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
-	hgcer_PMTvSampPulseTimeRaw 	= new TH2D("hgcer_PMTvSampPulseTimeRaw","hgcer_PMTvSampPulseTimeRaw", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
-	hgcer_PMTvSampPulseAmp 		= new TH2D("hgcer_PMTvSampPulseAmp","hgcer_PMTvSampPulseAmp", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
-	hgcer_PMTvSampPulseInt 		= new TH2D("hgcer_PMTvSampPulseInt","hgcer_PMTvSampPulseInt", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
-	hgcer_PMTvSampPulseTime 	= new TH2D("hgcer_PMTvSampPulseTime","hgcer_PMTvSampPulseTime", HGC_PMT, -0.5, 3.5, 1000, 0, 1000);
+	hgcer_PMTvSampPulseAmpRaw 	= new TH2D("hgcer_PMTvSampPulseAmpRaw","hgcer_PMTvSampPulseAmpRaw", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvSampPulseIntRaw 	= new TH2D("hgcer_PMTvSampPulseIntRaw","hgcer_PMTvSampPulseIntRaw", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvSampPulseTimeRaw 	= new TH2D("hgcer_PMTvSampPulseTimeRaw","hgcer_PMTvSampPulseTimeRaw", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvSampPulseAmp 		= new TH2D("hgcer_PMTvSampPulseAmp","hgcer_PMTvSampPulseAmp", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvSampPulseInt 		= new TH2D("hgcer_PMTvSampPulseInt","hgcer_PMTvSampPulseInt", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
+	hgcer_PMTvSampPulseTime 	= new TH2D("hgcer_PMTvSampPulseTime","hgcer_PMTvSampPulseTime", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
 
 	//single pmt comparison histos
 	for(int i = 0; i< HGC_PMT; i++)
@@ -234,45 +234,45 @@ void Mode10Check (TString rootFileName, int runNum)
 	TCanvas *MultiCanRaw = new TCanvas(Form("Mode10_hgcerRaw_%d", runNum),Form("Mode10_hgcerRaw_%d", runNum), 1200, 1200);
 	MultiCanRaw->cd(1); gPad->Divide(2,3);
 	gPad->cd(1);
-	hgcer_PMTvPulseAmpRaw->Draw();
+	hgcer_PMTvPulseAmpRaw->Draw("colz");
 	gPad->cd(2);
-	hgcer_PMTvPulseIntRaw->Draw();
+	hgcer_PMTvPulseIntRaw->Draw("colz");
 	gPad->cd(3);
-	hgcer_PMTvPulseTimeRaw->Draw();
+	hgcer_PMTvPulseTimeRaw->Draw("colz");
 	gPad->cd(4);
-	hgcer_PMTvSampPulseAmpRaw->Draw();
+	hgcer_PMTvSampPulseAmpRaw->Draw("colz");
 	gPad->cd(5);
-	hgcer_PMTvSampPulseIntRaw->Draw();
+	hgcer_PMTvSampPulseIntRaw->Draw("colz");
 	gPad->cd(6);
-	hgcer_PMTvSampPulseTimeRaw->Draw();
+	hgcer_PMTvSampPulseTimeRaw->Draw("colz");
 	gPad->Modified(); gPad->Update();
 	MultiCanRaw->Print(Form("Mode10_hgcerRaw_%d.gif", runNum));
 	
 	// second set of 2d plots
 	TCanvas *MultiCan = new TCanvas(Form("Mode10_hgcer_%d", runNum),Form("Mode10_hgcer_%d", runNum), 1200, 1200);
-	MultiCan->cd(1); gPad->Divide(2,3);	
-	gPad->cd(1);
-	hgcer_PMTvPulseAmp->Draw();
+	MultiCan->cd(1); MultiCan->Divide(2,3);	
+	MultiCan->cd(1);
+	hgcer_PMTvPulseAmp->Draw("colz");
 	gPad->Modified(); gPad->Update();
 	
-	gPad->cd(2);
-	hgcer_PMTvPulseInt->Draw();
+	MultiCan->cd(2);
+	hgcer_PMTvPulseInt->Draw("colz");
 	gPad->Modified(); gPad->Update();
 	
-	gPad->cd(3);
-	hgcer_PMTvPulseTime->Draw();
+	MultiCan->cd(3);
+	hgcer_PMTvPulseTime->Draw("colz");
 	gPad->Modified(); gPad->Update();
 	
-	gPad->cd(4);
-	hgcer_PMTvSampPulseAmp->Draw();
+	MultiCan->cd(4);
+	hgcer_PMTvSampPulseAmp->Draw("colz");
 	gPad->Modified(); gPad->Update();
 	
-	gPad->cd(5);
-	hgcer_PMTvSampPulseInt->Draw();
+	MultiCan->cd(5);
+	hgcer_PMTvSampPulseInt->Draw("colz");
 	gPad->Modified(); gPad->Update();
 	
-	gPad->cd(6);
-	hgcer_PMTvSampPulseTime->Draw();
+	MultiCan->cd(6);
+	hgcer_PMTvSampPulseTime->Draw("colz");
     gPad->Modified(); gPad->Update();
 	MultiCan->Print(Form("Mode10_hgcer_%d.png", runNum));
 
