@@ -86,24 +86,24 @@ TH1D* hgcer_SampPulseTime[HGC_PMT];
 void setBranchAddresses(TTree* DataTree)
 {
 	// regular set
-	DataTree->SetBranchAddress("Ndata.T.hgcer.adcCounter", &hgcer_adcCounterNdata);
-	DataTree->SetBranchAddress("T.hgcer.adcCounter", hgcer_adcCounter);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseAmpRaw", hgcer_adcPulseAmpRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseIntRaw", hgcer_adcPulseIntRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseTimeRaw", hgcer_adcPulseTimeRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseAmp", hgcer_adcPulseAmp);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseInt", hgcer_adcPulseInt);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseTime", hgcer_adcPulseTime);
+	DataTree->SetBranchAddress("Ndata.P.hgcer.adcCounter", &hgcer_adcCounterNdata);
+	DataTree->SetBranchAddress("P.hgcer.adcCounter", hgcer_adcCounter);
+	DataTree->SetBranchAddress("P.hgcer.adcPulseAmpRaw", hgcer_adcPulseAmpRaw);
+	DataTree->SetBranchAddress("P.hgcer.adcPulseIntRaw", hgcer_adcPulseIntRaw);
+	DataTree->SetBranchAddress("P.hgcer.adcPulseTimeRaw", hgcer_adcPulseTimeRaw);
+	DataTree->SetBranchAddress("P.hgcer.adcPulseAmp", hgcer_adcPulseAmp);
+	DataTree->SetBranchAddress("P.hgcer.adcPulseInt", hgcer_adcPulseInt);
+	DataTree->SetBranchAddress("P.hgcer.adcPulseTime", hgcer_adcPulseTime);
 	
 	// Mode 10 set
-	DataTree->SetBranchAddress("Ndata.T.hgcer.adcSampCounter", &hgcer_adcSampCounterNdata);
-	DataTree->SetBranchAddress("T.hgcer.adcSampCounter", hgcer_adcSampCounter);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseAmpRaw", hgcer_adcSampPulseAmpRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseIntRaw", hgcer_adcSampPulseIntRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseTimeRaw", hgcer_adcSampPulseTimeRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseAmp", hgcer_adcSampPulseAmp);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseInt", hgcer_adcSampPulseInt);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseTime", hgcer_adcSampPulseTime);
+	DataTree->SetBranchAddress("Ndata.P.hgcer.adcSampCounter", &hgcer_adcSampCounterNdata);
+	DataTree->SetBranchAddress("P.hgcer.adcSampCounter", hgcer_adcSampCounter);
+	DataTree->SetBranchAddress("P.hgcer.adcSampPulseAmpRaw", hgcer_adcSampPulseAmpRaw);
+	DataTree->SetBranchAddress("P.hgcer.adcSampPulseIntRaw", hgcer_adcSampPulseIntRaw);
+	DataTree->SetBranchAddress("P.hgcer.adcSampPulseTimeRaw", hgcer_adcSampPulseTimeRaw);
+	DataTree->SetBranchAddress("P.hgcer.adcSampPulseAmp", hgcer_adcSampPulseAmp);
+	DataTree->SetBranchAddress("P.hgcer.adcSampPulseInt", hgcer_adcSampPulseInt);
+	DataTree->SetBranchAddress("P.hgcer.adcSampPulseTime", hgcer_adcSampPulseTime);
 	
 	return;
 }
@@ -198,6 +198,9 @@ void fillHistos(TTree *DataTree)
 
 void Mode10Check (TString rootFileName, int runNum)
 {
+    //prevent root from displaying graphs while executing
+    gROOT->SetBatch(1);
+    
 	//get root file
     TFile* inFile = new TFile(rootFileName, "READ");
     
