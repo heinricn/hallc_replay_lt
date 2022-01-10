@@ -163,7 +163,7 @@ void fillHistos(TTree *DataTree)
 			hgcer_PMTvPulseInt->Fill(hgcer_adcCounter[i], hgcer_adcPulseInt[i]);
 			hgcer_PMTvPulseTime->Fill(hgcer_adcCounter[i], hgcer_adcPulseTime[i]);
 		
-		    int j = hgcer_adcCounter[i];
+		    int j = hgcer_adcCounter[i]-1;
 			if( j < 0 || j > 3) 
 			    cout << "Error! j out of bounds!!!!!!\n" << "j = " << j << "\n";
 			hgcer_PulseAmpRaw[j]->Fill(hgcer_adcPulseAmpRaw[i]);
@@ -184,7 +184,7 @@ void fillHistos(TTree *DataTree)
 			hgcer_PMTvSampPulseInt->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseInt[i]);
 			hgcer_PMTvSampPulseTime->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseTime[i]);
 		
-		    int k = hgcer_adcSampCounter[i];
+		    int k = hgcer_adcSampCounter[i]-1;
 		    if( k < 0 || k > 3)
 		        cout << "Error! k out of bounds!!!!!!\n" << "k = " << k << "\n";
 			hgcer_SampPulseAmpRaw[k]->Fill(hgcer_adcSampPulseAmpRaw[i]);
