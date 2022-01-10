@@ -297,7 +297,7 @@ void Mode10Check (TString rootFileName, int runNum)
 		HistCan[i]->cd(3);
 		hgcer_PulseTimeRaw[i]->SetLineColor(1);
 		hgcer_PulseTimeRaw[i]->Draw();
-		hgcer_SampPulseTimeRaw[i]
+		hgcer_SampPulseTimeRaw[i]->SetLineColor(4);
 		hgcer_SampPulseTimeRaw[i]->Draw("SAME");
 		
 		HistCan[i]->cd(4);
