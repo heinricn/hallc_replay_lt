@@ -32,7 +32,7 @@ static const int HGCER_MAX = 16;
 static const int HGC_PMT = 4;
 
 // Standard
-double hgcer_adcCounterNdata;
+Int_t hgcer_adcCounterNdata;
 double hgcer_adcCounter[HGCER_MAX];
 double hgcer_adcPulseAmpRaw[HGCER_MAX];
 double hgcer_adcPulseIntRaw[HGCER_MAX];
@@ -42,7 +42,7 @@ double hgcer_adcPulseInt[HGCER_MAX];
 double hgcer_adcPulseTime[HGCER_MAX];
 
 // Mode 10
-double hgcer_adcSampCounterNdata;
+Int_t hgcer_adcSampCounterNdata;
 double hgcer_adcSampCounter[HGCER_MAX];
 double hgcer_adcSampPulseAmpRaw[HGCER_MAX];
 double hgcer_adcSampPulseIntRaw[HGCER_MAX];
