@@ -133,37 +133,37 @@ void fillHistos(TTree *DataTree)
 		//regular
 		for(int i = 0; i < hgcer_adcCounterNdata; i++)
 		{
-			hgcer_PMTvPulseAmpRaw->Fill(hgcer_adcCounter, hgcer_adcPulseAmpRaw);
-			hgcer_PMTvPulseIntRaw->Fill(hgcer_adcCounter, hgcer_adcPulseIntRaw);
-			hgcer_PMTvPulseTimeRaw->Fill(hgcer_adcCounter, hgcer_adcPulseTimeRaw);
-			hgcer_PMTvPulseAmp->Fill(hgcer_adcCounter, hgcer_adcPulseAmp);
-			hgcer_PMTvPulseInt->Fill(hgcer_adcCounter, hgcer_adcPulseInt);
-			hgcer_PMTvPulseTime->Fill(hgcer_adcCounter, hgcer_adcPulseTime);
+			hgcer_PMTvPulseAmpRaw->Fill(hgcer_adcCounter[i], hgcer_adcPulseAmpRaw[i]);
+			hgcer_PMTvPulseIntRaw->Fill(hgcer_adcCounter[i], hgcer_adcPulseIntRaw[i]);
+			hgcer_PMTvPulseTimeRaw->Fill(hgcer_adcCounter[i], hgcer_adcPulseTimeRaw[i]);
+			hgcer_PMTvPulseAmp->Fill(hgcer_adcCounter[i], hgcer_adcPulseAmp[i]);
+			hgcer_PMTvPulseInt->Fill(hgcer_adcCounter[i], hgcer_adcPulseInt[i]);
+			hgcer_PMTvPulseTime->Fill(hgcer_adcCounter[i], hgcer_adcPulseTime[i]);
 		
-			hgcer_PulseAmpRaw[hgcer_adcCounter]->Fill(hgcer_adcPulseAmpRaw);
-			hgcer_PulseIntRaw[hgcer_adcCounter]->Fill(hgcer_adcPulseIntRaw);
-			hgcer_PulseTimeRaw[hgcer_adcCounter]->Fill(hgcer_adcPulseTimeRaw);
-			hgcer_PulseAmp[hgcer_adcCounter]->Fill(hgcer_adcPulseAmp);
-			hgcer_PulseInt[hgcer_adcCounter]->Fill(hgcer_adcPulseInt);
-			hgcer_PulseTime[hgcer_adcCounter]->Fill(hgcer_adcPulseTime);
+			hgcer_PulseAmpRaw[FloorNint(hgcer_adcCounter)]->Fill(hgcer_adcPulseAmpRaw[i]);
+			hgcer_PulseIntRaw[FloorNint(hgcer_adcCounter)]->Fill(hgcer_adcPulseIntRaw[i]);
+			hgcer_PulseTimeRaw[FloorNint(hgcer_adcCounter)]->Fill(hgcer_adcPulseTimeRaw[i]);
+			hgcer_PulseAmp[FloorNint(hgcer_adcCounter)]->Fill(hgcer_adcPulseAmp[i]);
+			hgcer_PulseInt[FloorNint(hgcer_adcCounter)]->Fill(hgcer_adcPulseInt[i]);
+			hgcer_PulseTime[FloorNint(hgcer_adcCounter)]->Fill(hgcer_adcPulseTime[i]);
 		}
 		
 		//Mode 10
 		for(int i = 0; i < hgcer_adcCounterNdata; i++)
 		{
-			hgcer_PMTvSampPulseAmpRaw->Fill(hgcer_adcSampCounter, hgcer_adcSampPulseAmpRaw);
-			hgcer_PMTvSampPulseIntRaw->Fill(hgcer_adcSampCounter, hgcer_adcSampPulseIntRaw);
-			hgcer_PMTvSampPulseTimeRaw->Fill(hgcer_adcSampCounter, hgcer_adcSampPulseTimeRaw);
-			hgcer_PMTvSampPulseAmp->Fill(hgcer_adcSampCounter, hgcer_adcSampPulseAmp);
-			hgcer_PMTvSampPulseInt->Fill(hgcer_adcSampCounter, hgcer_adcSampPulseInt);
-			hgcer_PMTvSampPulseTime->Fill(hgcer_adcSampCounter, hgcer_adcSampPulseTime);
+			hgcer_PMTvSampPulseAmpRaw->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseAmpRaw[i]);
+			hgcer_PMTvSampPulseIntRaw->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseIntRaw[i]);
+			hgcer_PMTvSampPulseTimeRaw->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseTimeRaw[i]);
+			hgcer_PMTvSampPulseAmp->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseAmp[i]);
+			hgcer_PMTvSampPulseInt->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseInt[i]);
+			hgcer_PMTvSampPulseTime->Fill(hgcer_adcSampCounter[i], hgcer_adcSampPulseTime[i]);
 		
-			hgcer_SampPulseAmpRaw[hgcer_adcSampCounter]->Fill(hgcer_adcSampPulseAmpRaw);
-			hgcer_SampPulseIntRaw[hgcer_adcSampCounter]->Fill(hgcer_adcSampPulseIntRaw);
-			hgcer_SampPulseTimeRaw[hgcer_adcSampCounter]->Fill(hgcer_adcSampPulseTimeRaw);
-			hgcer_SampPulseAmp[hgcer_adcSampCounter]->Fill(hgcer_adcSampPulseAmp);
-			hgcer_SampPulseInt[hgcer_adcSampCounter]->Fill(hgcer_adcSampPulseInt);
-			hgcer_SampPulseTime[hgcer_adcSampCounter]->Fill(hgcer_adcSampPulseTime);
+			hgcer_SampPulseAmpRaw[FloorNint(hgcer_adcSampCounter)]->Fill(hgcer_adcSampPulseAmpRaw[i]);
+			hgcer_SampPulseIntRaw[FloorNint(hgcer_adcSampCounter)]->Fill(hgcer_adcSampPulseIntRaw[i]);
+			hgcer_SampPulseTimeRaw[FloorNint(hgcer_adcSampCounter)]->Fill(hgcer_adcSampPulseTimeRaw[i]);
+			hgcer_SampPulseAmp[FloorNint(hgcer_adcSampCounter)]->Fill(hgcer_adcSampPulseAmp[i]);
+			hgcer_SampPulseInt[FloorNint(hgcer_adcSampCounter)]->Fill(hgcer_adcSampPulseInt[i]);
+			hgcer_SampPulseTime[FloorNint(hgcer_adcSampCounter)]->Fill(hgcer_adcSampPulseTime[i]);
 		}
 	}
 	return;
