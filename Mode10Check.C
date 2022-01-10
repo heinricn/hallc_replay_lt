@@ -96,8 +96,8 @@ void setBranchAddresses(TTree* DataTree)
 	DataTree->SetBranchAddress("P.hgcer.adcPulseTime", hgcer_adcPulseTime);
 	
 	// Mode 10 set
-	DataTree->SetBranchAddress("Ndata.P.hgcer.adcSampCounter", &hgcer_adcSampCounterNdata);
-	DataTree->SetBranchAddress("P.hgcer.adcSampCounter", hgcer_adcSampCounter);
+	DataTree->SetBranchAddress("Ndata.P.hgcer.adcSampleCounter", &hgcer_adcSampCounterNdata);
+	DataTree->SetBranchAddress("P.hgcer.adcSampleCounter", hgcer_adcSampCounter);
 	DataTree->SetBranchAddress("P.hgcer.adcSampPulseAmpRaw", hgcer_adcSampPulseAmpRaw);
 	DataTree->SetBranchAddress("P.hgcer.adcSampPulseIntRaw", hgcer_adcSampPulseIntRaw);
 	DataTree->SetBranchAddress("P.hgcer.adcSampPulseTimeRaw", hgcer_adcSampPulseTimeRaw);
