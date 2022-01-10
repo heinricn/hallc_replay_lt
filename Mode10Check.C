@@ -210,6 +210,7 @@ void Mode10Check (TString rootFileName, int runNum)
     //get tree from root file
     TTree *DataTree = dynamic_cast <TTree*> (inFile->Get("T"));
     
+    DataTree->Print();
     setBranchAddresses(DataTree);
     
     //make histograms
