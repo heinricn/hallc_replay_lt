@@ -246,21 +246,31 @@ void Mode10Check (TString rootFileName, int runNum)
 	gPad->cd(6);
 	hgcer_PMTvSampPulseTimeRaw->Draw();
 	gPad->Modified(); gPad->Update();
-	MultiCanRaw->Print(Form("Mode10_hgcerRaw_%d.png", runNum));
+	MultiCanRaw->Print(Form("Mode10_hgcerRaw_%d.gif", runNum));
 	
 	// second set of 2d plots
 	TCanvas *MultiCan = new TCanvas(Form("Mode10_hgcer_%d", runNum),Form("Mode10_hgcer_%d", runNum), 1200, 1200);
 	MultiCan->cd(1); gPad->Divide(2,3);	
 	gPad->cd(1);
 	hgcer_PMTvPulseAmp->Draw();
+	gPad->Modified(); gPad->Update();
+	
 	gPad->cd(2);
 	hgcer_PMTvPulseInt->Draw();
+	gPad->Modified(); gPad->Update();
+	
 	gPad->cd(3);
 	hgcer_PMTvPulseTime->Draw();
+	gPad->Modified(); gPad->Update();
+	
 	gPad->cd(4);
 	hgcer_PMTvSampPulseAmp->Draw();
+	gPad->Modified(); gPad->Update();
+	
 	gPad->cd(5);
 	hgcer_PMTvSampPulseInt->Draw();
+	gPad->Modified(); gPad->Update();
+	
 	gPad->cd(6);
 	hgcer_PMTvSampPulseTime->Draw();
     gPad->Modified(); gPad->Update();
