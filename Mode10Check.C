@@ -63,24 +63,24 @@ TH1D* hgcer_SampPulseTime[HGC_PMT];
 void setBranchAddresses(TTree* DataTree)
 {
 	// regular set
-	DataTree->SetBranchAddress("Ndata.T.hgcer.adcCounter", hgcer_adcCounterNdata);
-	DataTree->SetBranchAddress("T.hgcer.adcCounter", hgcer_adcCounter);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseAmpRaw", hgcer_adcPulseAmpRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseIntRaw", hgcer_adcPulseIntRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseTimeRaw", hgcer_adcPulseTimeRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseAmp", hgcer_adcPulseAmp);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseInt", hgcer_adcPulseInt);
-	DataTree->SetBranchAddress("T.hgcer.adcPulseTime", hgcer_adcPulseTime);
+	DataTree->setBranchAddress("Ndata.T.hgcer.adcCounter", hgcer_adcCounterNdata);
+	DataTree->setBranchAddress("T.hgcer.adcCounter", hgcer_adcCounter);
+	DataTree->setBranchAddress("T.hgcer.adcPulseAmpRaw", hgcer_adcPulseAmpRaw);
+	DataTree->setBranchAddress("T.hgcer.adcPulseIntRaw", hgcer_adcPulseIntRaw);
+	DataTree->setBranchAddress("T.hgcer.adcPulseTimeRaw", hgcer_adcPulseTimeRaw);
+	DataTree->setBranchAddress("T.hgcer.adcPulseAmp", hgcer_adcPulseAmp);
+	DataTree->setBranchAddress("T.hgcer.adcPulseInt", hgcer_adcPulseInt);
+	DataTree->setBranchAddress("T.hgcer.adcPulseTime", hgcer_adcPulseTime);
 	
 	// Mode 10 set
-	DataTree->SetBranchAddress("Ndata.T.hgcer.adcSampCounter", hgcer_adcSampCounterNdata);
-	DataTree->SetBranchAddress("T.hgcer.adcSampCounter", hgcer_adcSampCounter);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseAmpRaw", hgcer_adcSampPulseAmpRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseIntRaw", hgcer_adcSampPulseIntRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseTimeRaw", hgcer_adcSampPulseTimeRaw);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseAmp", hgcer_adcSampPulseAmp);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseInt", hgcer_adcSampPulseInt);
-	DataTree->SetBranchAddress("T.hgcer.adcSampPulseTime", hgcer_adcSampPulseTime);
+	DataTree->setBranchAddress("Ndata.T.hgcer.adcSampCounter", hgcer_adcSampCounterNdata);
+	DataTree->setBranchAddress("T.hgcer.adcSampCounter", hgcer_adcSampCounter);
+	DataTree->setBranchAddress("T.hgcer.adcSampPulseAmpRaw", hgcer_adcSampPulseAmpRaw);
+	DataTree->setBranchAddress("T.hgcer.adcSampPulseIntRaw", hgcer_adcSampPulseIntRaw);
+	DataTree->setBranchAddress("T.hgcer.adcSampPulseTimeRaw", hgcer_adcSampPulseTimeRaw);
+	DataTree->setBranchAddress("T.hgcer.adcSampPulseAmp", hgcer_adcSampPulseAmp);
+	DataTree->setBranchAddress("T.hgcer.adcSampPulseInt", hgcer_adcSampPulseInt);
+	DataTree->setBranchAddress("T.hgcer.adcSampPulseTime", hgcer_adcSampPulseTime);
 	
 	return;
 }
