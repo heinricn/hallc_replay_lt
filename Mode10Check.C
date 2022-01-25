@@ -1,7 +1,7 @@
 /*
 	Mode10Check.C
 	Author: Nathan Heinrich
-	This is a peice of code to check the fucntion of the changes to hcana 
+	This is a peice of code to check the function of the changes to hcana 
 	to do with the inclusion of mode 10 data.
 */
 
@@ -198,9 +198,10 @@ void fillHistos(TTree *DataTree)
 	return;
 }
 
+//function to draw a legend for the 1D plots
 void makeLegend(TH1D* hist1, TH1D* hist2)
 {
-  TLegend* newLeg = new TLegend(0.1,0.7,0.48,0.9);
+  TLegend* newLeg = new TLegend(0.15,0.85,0.75,0.93);
   newLeg->AddEntry(hist1, hist1->GetName());
   newLeg->AddEntry(hist2, hist2->GetName());
   newLeg->Draw();
@@ -293,40 +294,62 @@ void Mode10Check (TString rootFileName, int runNum)
 		hgcer_PulseAmpRaw[i]->Draw();
 		hgcer_SampPulseAmpRaw[i]->SetLineColor(4);
 		hgcer_SampPulseAmpRaw[i]->Draw("SAME");
+		makeLegend(hgcer_PulseAmpRaw[i], hgcer_SampPulseAmpRaw[i]); 
 		
 		HistCan[i]->cd(2);
 		hgcer_PulseIntRaw[i]->SetLineColor(1);
 		hgcer_PulseIntRaw[i]->Draw();
 		hgcer_SampPulseIntRaw[i]->SetLineColor(4);
 		hgcer_SampPulseIntRaw[i]->Draw("SAME");
-		
+		makeLegend(hgcer_PulseIntRaw[i], hgcer_SampPulseIntRaw[i]);
+
 		HistCan[i]->cd(3);
 		hgcer_PulseTimeRaw[i]->SetLineColor(1);
 		hgcer_PulseTimeRaw[i]->Draw();
 		hgcer_SampPulseTimeRaw[i]->SetLineColor(4);
 		hgcer_SampPulseTimeRaw[i]->Draw("SAME");
+		makeLegend(hgcer_PulseTimeRaw[i], hgcer_SampPulseTimeRaw[i]);
 		
 		HistCan[i]->cd(4);
 		hgcer_PulseAmp[i]->SetLineColor(1);
 		hgcer_PulseAmp[i]->Draw();
 		hgcer_SampPulseAmp[i]->SetLineColor(4);
 		hgcer_SampPulseAmp[i]->Draw("SAME");
+		makeLegend(hgcer_PulseAmp[i], hgcer_SampPulseAmp[i]);
 		
 		HistCan[i]->cd(5);
 		hgcer_PulseInt[i]->SetLineColor(1);
 		hgcer_PulseInt[i]->Draw();
 		hgcer_SampPulseInt[i]->SetLineColor(4);
 		hgcer_SampPulseInt[i]->Draw("SAME");
+		makeLegend(hgcer_PulseInt[i], hgcer_SampPulseInt[i]);
 		
 		HistCan[i]->cd(6);
 		hgcer_PulseTime[i]->SetLineColor(1);
 		hgcer_PulseTime[i]->Draw();
 		hgcer_SampPulseTime[i]->SetLineColor(4);
 		hgcer_SampPulseTime[i]->Draw("SAME");	
+		makeLegend(hgcer_PulseTime[i], hgcer_SampPulseTime[i]);
 			
 		HistCan[i]->Print(Form("OUTPUT/Analysis/Plots/Mode10_hgcerHist%d_%d.png", i, runNum));
 	}
+	TCanvas* PulseAmpZoom = new TCanvas(Form("Mode10_hgcer_PulseAmp_%d", runNum),Form("Mode10_hgcer_PulseAmp_%d", runNum), 1200, 1200);
 	
+	PulseAmpZoom->cd(1); PulseAmpZoom->Divide(1,2);	
+	PulseAmpZoom->cd(1);
+	hgcer_PMTvPulseAmp->SetMaximum(50);
+	hgcer_PMTvPulseAmp->SetMinimum(0);
+	hgcer_PMTvPulseAmp->Draw("colz");
+	gPad->Modified(); gPad->Update();
+
+	PulseAmpZoom->cd(2);
+	hgcer_PMTvSampPulseAmp->SetMaximum(50);
+	hgcer_PMTvSampPulseAmp->SetMinimum(0);
+	hgcer_PMTvSampPulseAmp->Draw("colz");
+	gPad->Modified(); gPad->Update();
+
+	PulseAmpZoom->Print(Form("OUTPUT/Analysis/Plots/Mode10_hgcer_PulseAmp_%d", runNum));
+
 	return;
 }
 
