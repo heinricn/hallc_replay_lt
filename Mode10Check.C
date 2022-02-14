@@ -118,10 +118,10 @@ void makeHistos()
 	hgcer_PMTvPulseInt 			= new TH2D("hgcer_PMTvPulseInt","hgcer_PMTvPulseInt", HGC_PMT, 0.5, 4.5, 200, 0, 400);
 	hgcer_PMTvPulseTime 		= new TH2D("hgcer_PMTvPulseTime","hgcer_PMTvPulseTime", HGC_PMT, 0.5, 4.5, 1000, -1000, 1000);
 
-	hgcer_PMTvSampPulseAmpRaw 	= new TH2D("hgcer_PMTvSampPulseAmpRaw","hgcer_PMTvSampPulseAmpRaw", HGC_PMT, 0.5, 4.5, 300, 400, 1000);
+	hgcer_PMTvSampPulseAmpRaw 	= new TH2D("hgcer_PMTvSampPulseAmpRaw","hgcer_PMTvSampPulseAmpRaw", HGC_PMT, 0.5, 4.5, 600, 400, 1000);
 	hgcer_PMTvSampPulseIntRaw 	= new TH2D("hgcer_PMTvSampPulseIntRaw","hgcer_PMTvSampPulseIntRaw", HGC_PMT, 0.5, 4.5, 1800, 2000, 20000);
 	hgcer_PMTvSampPulseTimeRaw 	= new TH2D("hgcer_PMTvSampPulseTimeRaw","hgcer_PMTvSampPulseTimeRaw", HGC_PMT, 0.5, 4.5, 500, 0, 1000);
-	hgcer_PMTvSampPulseAmp 		= new TH2D("hgcer_PMTvSampPulseAmp","hgcer_PMTvSampPulseAmp", HGC_PMT, 0.5, 4.5, 500, 0, 1000);
+	hgcer_PMTvSampPulseAmp 		= new TH2D("hgcer_PMTvSampPulseAmp","hgcer_PMTvSampPulseAmp", HGC_PMT, 0.5, 4.5, 1000, 0, 1000);
 	hgcer_PMTvSampPulseInt 		= new TH2D("hgcer_PMTvSampPulseInt","hgcer_PMTvSampPulseInt", HGC_PMT, 0.5, 4.5, 200, 0, 400);
 	hgcer_PMTvSampPulseTime 	= new TH2D("hgcer_PMTvSampPulseTime","hgcer_PMTvSampPulseTime", HGC_PMT, 0.5, 4.5, 1000, -1000, 1000);
 
@@ -335,20 +335,28 @@ void Mode10Check (TString rootFileName, int runNum)
 	}
 	TCanvas* PulseAmpZoom = new TCanvas(Form("Mode10_hgcer_PulseAmp_%d", runNum),Form("Mode10_hgcer_PulseAmp_%d", runNum), 1200, 1200);
 	
-	PulseAmpZoom->cd(1); PulseAmpZoom->Divide(1,2);	
+	PulseAmpZoom->cd(1); PulseAmpZoom->Divide(2,2);	
 	PulseAmpZoom->cd(1);
-	hgcer_PMTvPulseAmp->SetMaximum(50);
-	hgcer_PMTvPulseAmp->SetMinimum(0);
+	hgcer_PMTvPulseAmp->GetYaxis()->SetRangeUser(0,50);	
 	hgcer_PMTvPulseAmp->Draw("colz");
 	gPad->Modified(); gPad->Update();
 
 	PulseAmpZoom->cd(2);
-	hgcer_PMTvSampPulseAmp->SetMaximum(50);
-	hgcer_PMTvSampPulseAmp->SetMinimum(0);
+	hgcer_PMTvSampPulseAmp->GetYaxis()->SetRangeUser(0,50);	
 	hgcer_PMTvSampPulseAmp->Draw("colz");
 	gPad->Modified(); gPad->Update();
 
-	PulseAmpZoom->Print(Form("OUTPUT/Analysis/Plots/Mode10_hgcer_PulseAmp_%d", runNum));
+	PulseAmpZoom->cd(3);
+	hgcer_PMTvPulseAmpRaw->GetYaxis()->SetRangeUser(0,100);	
+	hgcer_PMTvPulseAmpRaw->Draw("colz");
+	gPad->Modified(); gPad->Update();
+
+	PulseAmpZoom->cd(4);
+	hgcer_PMTvSampPulseAmpRaw->GetYaxis()->SetRangeUser(0,100);	
+	hgcer_PMTvSampPulseAmpRaw->Draw("colz");
+	gPad->Modified(); gPad->Update();
+
+	PulseAmpZoom->Print(Form("OUTPUT/Analysis/Plots/Mode10_hgcer_PulseAmp_%d.png", runNum));
 
 	return;
 }
