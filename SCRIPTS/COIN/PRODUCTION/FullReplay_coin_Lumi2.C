@@ -1,4 +1,4 @@
-void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
+void FullReplay_coin_Lumi (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
 
   // Get RunNumber and MaxEvent if not provided.
   if(RunNumber == 0) {
@@ -16,7 +16,7 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   }
 
   // Create file name patterns.
-  const char* RunFileNamePattern = "shms_all_%05d.dat";
+  const char* RunFileNamePattern = "coin_all_%05d.dat";
   vector<TString> pathList;
   pathList.push_back(".");
   pathList.push_back("./raw");
@@ -24,18 +24,19 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   pathList.push_back("./raw2");
   pathList.push_back("./raw3");
   pathList.push_back("./raw4");
-  pathList.push_back("./raw.volatile");
   pathList.push_back("./raw/../raw.copiedtotape");
   pathList.push_back("./cache");
 
-  const char* ROOTFileNamePattern = "ROOTfiles/Calib/Hodo/HMS_Hodo_Calib_Pt1_%d_%d.root";
+  //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
+  const char* ROOTFileNamePattern = "ROOTfiles/Analysis/Lumi/coin_replay_Full_Lumi_%d_%d.root";
+
   // Load global parameters
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
   gHcParms->AddString("g_ctp_database_filename", "DBASE/COIN/standard_KaonLTCalib.database");
   gHcParms->Load(gHcParms->GetString("g_ctp_database_filename"), RunNumber);
   gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
-
+  // Load params for COIN trigger configuration
   gHcParms->Load("PARAM/TRIG/tcoin.param");
   // Load fadc debug parameters
   gHcParms->Load("PARAM/HMS/GEN/h_fadc_debug.param");
@@ -44,6 +45,7 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Load the Hall C detector map
   gHcDetectorMap = new THcDetectorMap();
   gHcDetectorMap->Load("MAPS/COIN/DETEC/coin.map");
+
   // Dec data
   gHaApps->Add(new Podd::DecData("D","Decoder raw data"));
 
@@ -75,12 +77,15 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   THcShower* pcal = new THcShower("cal", "Calorimeter");
   SHMS->AddDetector(pcal);
 
+  // THcBCMCurrent* hbc = new THcBCMCurrent("H.bcm", "BCM current check");
+  // gHaPhysics->Add(hbc);
+
   // Add rastered beam apparatus
   THaApparatus* pbeam = new THcRasteredBeam("P.rb", "Rastered Beamline");
   gHaApps->Add(pbeam);
   // Add physics modules
   // Calculate reaction point
-  THaReactionPoint* prp = new THaReactionPoint("P.react", "SHMS reaction point", "P", "P.rb");
+  THcReactionPoint* prp = new THcReactionPoint("P.react", "SHMS reaction point", "P", "P.rb");
   gHaPhysics->Add(prp);
   // Calculate extended target corrections
   THcExtTarCor* pext = new THcExtTarCor("P.extcor", "HMS extended target corrections", "P", "P.react");
@@ -88,10 +93,14 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Calculate golden track quantites
   THaGoldenTrack* pgtr = new THaGoldenTrack("P.gtr", "SHMS Golden Track", "P");
   gHaPhysics->Add(pgtr);
-  
+  // Calculate the hodoscope efficiencies
+  THcHodoEff* peff = new THcHodoEff("phodeff", "SHMS hodo efficiency", "P.hod");
+  gHaPhysics->Add(peff);   
+
   // Add event handler for scaler events
   THcScalerEvtHandler* pscaler = new THcScalerEvtHandler("P", "Hall C scaler event type 1");
   pscaler->AddEvtType(1);
+  pscaler->AddEvtType(2);
   pscaler->AddEvtType(4);
   pscaler->AddEvtType(5);
   pscaler->AddEvtType(6);
@@ -100,6 +109,13 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   pscaler->SetDelayedType(129);
   pscaler->SetUseFirstEvent(kTRUE);
   gHaEvtHandlers->Add(pscaler);
+
+  //Add SHMS event handler for helicity scalers
+  THcHelicityScaler *phelscaler = new THcHelicityScaler("P", "Hall C helicity scaler");
+  //phelscaler->SetDebugFile("PHelScaler.txt");
+  phelscaler->SetROC(8);
+  phelscaler->SetUseFirstEvent(kTRUE);
+  gHaEvtHandlers->Add(phelscaler);
 
   //=:=:=
   // HMS 
@@ -122,6 +138,10 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Add Cherenkov to HMS apparatus
   THcCherenkov* hcer = new THcCherenkov("cer", "Heavy Gas Cherenkov");
   HMS->AddDetector(hcer);
+  // Add Aerogel Cherenkov to HMS apparatus
+  // THcAerogel* haero = new THcAerogel("aero", "Aerogel");
+  // HMS->AddDetector(haero);
+  // Add calorimeter to HMS apparatus
   THcShower* hcal = new THcShower("cal", "Calorimeter");
   HMS->AddDetector(hcal);
 
@@ -130,7 +150,7 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   gHaApps->Add(hbeam);  
   // Add physics modules
   // Calculate reaction point
-  THaReactionPoint* hrp = new THaReactionPoint("H.react", "HMS reaction point", "H", "H.rb");
+  THcReactionPoint* hrp = new THcReactionPoint("H.react", "HMS reaction point", "H", "H.rb");
   gHaPhysics->Add(hrp);
   // Calculate extended target corrections
   THcExtTarCor* hext = new THcExtTarCor("H.extcor", "HMS extended target corrections", "H", "H.react");
@@ -138,9 +158,13 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Calculate golden track quantities
   THaGoldenTrack* hgtr = new THaGoldenTrack("H.gtr", "HMS Golden Track", "H");
   gHaPhysics->Add(hgtr);
-  
+  // Calculate the hodoscope efficiencies
+  THcHodoEff* heff = new THcHodoEff("hhodeff", "HMS hodo efficiency", "H.hod");
+  gHaPhysics->Add(heff);
+
   // Add event handler for scaler events
   THcScalerEvtHandler *hscaler = new THcScalerEvtHandler("H", "Hall C scaler event type 4");  
+  hscaler->AddEvtType(1);
   hscaler->AddEvtType(2);
   hscaler->AddEvtType(4);
   hscaler->AddEvtType(5);
@@ -155,17 +179,13 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Kinematics Modules
   //=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
 
-  // Add Physics Module to calculate primary (scattered electrons) beam kinematics 
+  // Add Physics Module to calculate primary (scattered electrons) beam kinematics
   THcPrimaryKine* hkin_primary = new THcPrimaryKine("H.kin.primary", "HMS Single Arm Kinematics", "H", "H.rb");
-  THcPrimaryKine* pkin_primary = new THcPrimaryKine("P.kin.primary", "SHMS Single Arm Kinematics", "P", "P.rb");
   gHaPhysics->Add(hkin_primary);
-  gHaPhysics->Add(pkin_primary);
- // Add Physics Module to calculate secondary (scattered hadrons) beam kinematics
-  THcSecondaryKine* hkin_secondary = new THcSecondaryKine("H.kin.secondary", "HMS Single Arm Kinematics", "H", "P.kin.primary");
+  // Add Physics Module to calculate secondary (scattered hadrons) beam kinematics
   THcSecondaryKine* pkin_secondary = new THcSecondaryKine("P.kin.secondary", "SHMS Single Arm Kinematics", "P", "H.kin.primary");
-  gHaPhysics->Add(hkin_secondary);
   gHaPhysics->Add(pkin_secondary);
-
+  
   //=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
   // Global Objects & Event Handlers
   //=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
@@ -179,11 +199,7 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   coin->SetEvtType(1);
   coin->AddEvtType(2);
   TRG->AddDetector(coin); 
-
-  // Add helicity detector to trigger apparatus
-  THcHelicity* helicity = new THcHelicity("helicity","Helicity Detector");
-  TRG->AddDetector(helicity);
-  
+ 
   //Add coin physics module THcCoinTime::THcCoinTime (const char *name, const char* description, const char* hadArmName, 
   // const char* elecArmName, const char* coinname) :
   THcCoinTime* coinTime = new THcCoinTime("CTime", "Coincidende Time Determination", "P", "H", "T.coin");
@@ -229,15 +245,21 @@ void HMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
 
   analyzer->SetEvent(event);
   // Set EPICS event type
-  analyzer->SetEpicsEvtType(181);
+  analyzer->SetEpicsEvtType(180);
   // Define crate map
   analyzer->SetCrateMapFileName("MAPS/db_cratemap.dat");
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
   // Define DEF-file+
-  analyzer->SetOdefFile("DEF-files/CALIBRATION/HMS_Calib.def");
+  analyzer->SetOdefFile("DEF-files/PRODUCTION/coin_production_hElec_pProt.def");
   // Define cuts file
-  analyzer->SetCutFile("DEF-files/CALIBRATION/HMS_Calib_cuts.def");  // optional
+  analyzer->SetCutFile("DEF-files/PRODUCTION/CUTS/luminosity_coin_production_cuts.def");  // optional
+  // File to record accounting information for cuts
+  analyzer->SetSummaryFile(Form("REPORT_OUTPUT/Analysis/Lumi/summary_Lumi_%d_%d.report", RunNumber, MaxEvent));  // optional
   // Start the actual analysis.
   analyzer->Process(run);
+  // Create report file from template
+  analyzer->PrintReport("TEMPLATES/COIN/PRODUCTION/coin_Lumi.template",
+			 Form("REPORT_OUTPUT/Analysis/Lumi/replay_coin_Lumi_%d_%d.report", RunNumber, MaxEvent));  // optional
+
 }
