@@ -9,7 +9,7 @@ gBCM_Offset = 253389, 250888, 277000, 1521, 764, 1569.
 gBCM_Names  = "BCM1 BCM2 Unser BCM4A BCM4B BCM4C"
 
 ; C.Y. Aug 31, Set beam current threshold to 3 uA
-gBCM_Current_threshold = 3.0
+gBCM_Current_threshold = 5.0
 
 ; index = 0 to gNumBCMs-1
 gBCM_Current_threshold_index = 3

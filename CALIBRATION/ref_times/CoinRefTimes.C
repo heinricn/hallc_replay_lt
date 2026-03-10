@@ -15,6 +15,7 @@ Double_t h_xfp;
 Double_t pGtime, hGtime;
 Double_t pNtrack, hNtrack;
 Double_t pdp, hdp;
+//Double_t gEventType;
 
 const Double_t CT_rawCut_low = 25;
 const Double_t CT_rawCut_high = 135;
@@ -104,7 +105,7 @@ void fillHistos(TTree *DataTree)
         ePiCoinTime_ROC1->Fill(Ctime_ePi_Roc1);
         ePiCoinTime_ROC2->Fill(Ctime_ePi_Roc2);
 
-        if (pGtime == 1 && hGtime == 1 && pNtrack > 0 && hNtrack > 0 && hdp > -8.0 && hdp < 8.0 && pdp > -10.0 && pdp < 22.0)
+        if (pGtime == 1 && hGtime == 1 && pNtrack > 0 && hNtrack > 0)
         {
             CoinTime_RAW_ROC1_cut->Fill(Cointime_ROC1_RAW);
             CoinTime_RAW_ROC2_cut->Fill(Cointime_ROC2_RAW);
@@ -208,7 +209,7 @@ void CoinRefTimes( TString rootFileName, Int_t RunNumber)
     
     //get tree from root file
     TTree *DataTree = dynamic_cast <TTree*> (inFile->Get("T"));
-    
+        
     DataTree->SetBranchAddress("T.coin.pTRIG1_ROC1_tdcTimeRaw", &pTrig1_Roc1_Raw);
     DataTree->SetBranchAddress("T.coin.pTRIG1_ROC1_tdcTime", &pTrig1_Roc1);
     
@@ -227,6 +228,7 @@ void CoinRefTimes( TString rootFileName, Int_t RunNumber)
     DataTree->SetBranchAddress("T.coin.pTRIG3_ROC1_tdcTimeRaw", &pTrig3_Roc1_Raw);
     DataTree->SetBranchAddress("T.coin.pTRIG3_ROC1_tdcTime", &pTrig3_Roc1);
 
+    //DataTree->SetBranchAddress("g.evtyp", &gEventType);
 
     DataTree->SetBranchAddress("T.coin.pT2_tdcTimeRaw", &pTref2);
     DataTree->SetBranchAddress("T.coin.pT2_tdcMultiplicity", &pTref2_Mult);
